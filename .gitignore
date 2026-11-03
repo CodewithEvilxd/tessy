@@ -1,0 +1,35 @@
+# internal (never committed)
+PLAN.md
+CLAUDE.md
+.claude/
+notes/
+
+node_modules/
+.next/
+out/
+coverage/
+test-results/
+playwright-report/
+*.log
+.DS_Store
+.env*
+!.env.example
+next-env.d.ts
+*.tsbuildinfo
+.scratch/
+
+# local database
+.data/
+
+# local databases and Vercel links
+*.db
+*.sqlite
+.vercel
+
+# OS & Editor
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo

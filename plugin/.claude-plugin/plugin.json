@@ -1,0 +1,10 @@
+{
+  "name": "tessy",
+  "version": "2.0.0",
+  "description": "Make and edit a Tessy link-in-bio page. Adds the Tessy MCP server and a make-a-page skill.",
+  "author": { "name": "codewithevilxd" },
+  "homepage": "https://tessy.page",
+  "repository": "https://github.com/codewithevilxd/tessy",
+  "license": "MIT",
+  "keywords": ["link-in-bio", "linktree", "mcp"]
+}

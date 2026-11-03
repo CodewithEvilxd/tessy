@@ -1,0 +1,345 @@
+/* ================= Painted scene: a quiet Ghibli sky, cream paper cards ================= */
+.pts, .ptk-lab {
+  --ink: #2d2723; --ink-soft: #6f655c; --card: #fffefb; --paper: #f5efe6; --acc: #e4572e; --line: rgb(45 39 35 / .11);
+  --edge: 22px 26px 24px 20px / 24px 20px 26px 22px;
+  --shadow: 0 1px 1px rgb(60 40 20 / .05), 0 3px 6px rgb(60 40 20 / .05), 0 24px 44px -28px rgb(60 40 20 / .5);
+  --shadow-up: 0 1px 1px rgb(60 40 20 / .05), 0 6px 12px rgb(60 40 20 / .06), 0 32px 54px -28px rgb(60 40 20 / .55);
+  --ease: cubic-bezier(.22, .8, .3, 1);
+  font-family: var(--font-geist), system-ui, sans-serif; color: var(--ink);
+}
+.pts-night, .ptk-lab-night {
+  --card: #f8f1e4; --paper: #ece3d3; --line: rgb(45 39 35 / .14);
+  --shadow: 0 1px 1px rgb(0 0 20 / .2), 0 4px 8px rgb(0 0 20 / .15), 0 28px 50px -26px rgb(0 0 20 / .7);
+  --shadow-up: 0 1px 1px rgb(0 0 20 / .2), 0 8px 14px rgb(0 0 20 / .18), 0 36px 60px -26px rgb(0 0 20 / .75);
+}
+
+/* ---------- the sky: one painting behind everything, drifting very slowly ---------- */
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) { --pts-sky: url(/looks/painted/sky-day.webp); }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas).tessy-preset-golden-hour { --pts-sky: url(/looks/painted/sky-golden.webp); }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas).tessy-preset-dusk-sky { --pts-sky: url(/looks/painted/sky-dusk.webp); }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas).tessy-preset-starry { --pts-sky: url(/looks/painted/sky-night.webp); }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) .tessy-backdrop { background: #b9d3e6; isolation: isolate; }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas).tessy-preset-starry .tessy-backdrop { background: #18264a; }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) .tessy-backdrop::before { inset: -3%; z-index: 0; background: var(--pts-sky) 22% 100% / cover no-repeat; opacity: 1; filter: none; mix-blend-mode: normal; mask: none; animation: pts-sky 90s ease-in-out infinite alternate; }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) .tessy-backdrop::after { display: none; }
+@keyframes pts-sky { from { translate: -1.2% 0; } to { translate: 1.2% -.6%; } }
+.tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) .tessy-footer a { color: #fffefb; text-shadow: 0 1px 8px rgb(30 40 70 / .5); }
+
+/* ---------- a card: cream painted paper, a soft hand-cut edge, a warm shadow ---------- */
+.ptc { position: relative; display: block; background: var(--card); border-radius: var(--edge); box-shadow: inset 0 0 0 1px var(--line), var(--shadow); color: var(--ink); transition: translate .5s var(--ease), box-shadow .5s var(--ease), scale .2s; }
+.ptc::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url(/looks/washi/paper.jpg) center / 520px; mix-blend-mode: multiply; opacity: .1; pointer-events: none; }
+.sc-piece:is(:hover, .is-hover) > .ptc { translate: 0 -3px; box-shadow: inset 0 0 0 1px var(--line), var(--shadow-up); }
+.sc-piece:is(:active, .is-press) > .ptc { translate: 0 0; scale: .99; transition-duration: .12s; }
+.sc-piece:focus-visible { outline: none; }
+.sc-piece:focus-visible > .ptc { box-shadow: 0 0 0 3px color-mix(in oklab, var(--acc) 55%, transparent), var(--shadow); }
+.ptc-title { font-family: var(--font-serif), serif; font-weight: 400; font-size: 23px; line-height: 1.08; letter-spacing: -.005em; color: var(--ink); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; }
+.ptc-sub { font-size: 13.5px; line-height: 1.42; color: var(--ink-soft); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.ptc-meta { font-size: 12.5px; color: var(--ink-soft); }
+.ptc-hand { font-family: var(--font-caveat), cursive; font-weight: 600; }
+.ptc-words { display: grid; gap: 4px; min-width: 0; align-content: start; }
+
+/* links: favicon, a clean title, the site, a clear arrow */
+.ptc-link .ptc-body { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "fav words" "fav site"; column-gap: 14px; row-gap: 5px; padding: 14px 16px 13px 14px; }
+.ptc-fav { grid-area: fav; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px 14px 12px 13px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+.ptc-fav img, .ptc-fav svg { width: 20px; height: 20px; border-radius: 4px; color: var(--ink-soft); }
+.ptc-link .ptc-words { grid-area: words; }
+.ptc-site { grid-area: site; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; font-size: 12.5px; color: var(--ink-soft); }
+.ptc-site > span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ptc-go { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background .35s, color .35s, translate .35s var(--ease); }
+.ptc-go svg { width: 15px; height: 15px; }
+.sc-piece:is(:hover, .is-hover) .ptc-go { background: var(--acc); color: #fff; box-shadow: none; translate: 2px -2px; }
+/* the one you lead with */
+.ptc-big .ptc-title { font-size: 34px; line-height: 1.02; -webkit-line-clamp: 3; }
+.ptc-big .ptc-sub { font-size: 15px; -webkit-line-clamp: 3; }
+.ptc-big .ptc-body { grid-template-columns: 48px minmax(0, 1fr); padding: 24px 24px 20px 22px; row-gap: 16px; }
+.ptc-big .ptc-fav { width: 48px; height: 48px; }
+.ptc-big .ptc-site { font-size: 13.5px; }
+.ptc-big .ptc-go { width: 34px; height: 34px; }
+.ptc-has-pic { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: stretch; }
+.ptc-has-pic .ptc-body { grid-template-columns: minmax(0, 1fr); grid-template-areas: "words" "site"; grid-template-rows: 1fr auto; padding: 26px 26px 22px 24px; }
+.ptc-has-pic .ptc-body > .ptc-fav { display: none; }
+/* a lead picture that fails to load: the card simply becomes the no-picture lead */
+.ptc-has-pic:has(.ptc-pic-blank) { display: block; }
+.ptc-has-pic:has(.ptc-pic-blank) .ptc-pic { display: none; }
+.ptc-has-pic:has(.ptc-pic-blank) .ptc-body { grid-template-columns: 48px minmax(0, 1fr); grid-template-areas: "fav words" "fav site"; grid-template-rows: auto; padding: 24px 24px 20px 22px; }
+.ptc-has-pic:has(.ptc-pic-blank) .ptc-body > .ptc-fav { display: grid; }
+.ptc-pic { position: relative; display: block; min-height: 230px; margin: 10px 0 10px 10px; overflow: hidden; border-radius: 16px 18px 15px 17px; background: var(--paper); }
+.ptc-pic > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1.2s var(--ease); }
+.ptc-pic-blank { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(170deg, #e9eff2, var(--paper)); }
+.sc-piece:is(:hover, .is-hover) .ptc-pic > img { scale: 1.035; }
+
+/* music: cover, track, a quiet player line */
+.ptc-music { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 16px; align-items: center; padding: 14px 18px 14px 14px; }
+.ptc-cover { display: grid; place-items: center; width: 84px; aspect-ratio: 1; overflow: hidden; border-radius: 14px 16px 13px 15px; background: var(--paper); color: var(--ink-soft); box-shadow: inset 0 0 0 1px var(--line); }
+.ptc-cover img { width: 100%; height: 100%; object-fit: cover; }
+.ptc-cover svg { width: 28px; height: 28px; }
+.ptc-music .ptc-title { font-size: 21px; -webkit-line-clamp: 1; }
+.ptc-player { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.ptc-play { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--card); transition: background .35s; }
+.ptc-play svg { width: 12px; height: 12px; margin-left: 2px; fill: currentColor; }
+.ptc-line { position: relative; flex: 1; height: 3px; border-radius: 2px; background: rgb(45 39 35 / .12); }
+.ptc-line i { position: absolute; left: 0; top: 0; bottom: 0; width: 32%; border-radius: 2px; background: var(--acc); }
+.ptc-line i::after { content: ""; position: absolute; right: -4px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--acc); }
+.sc-piece:is(:hover, .is-hover) .ptc-play { background: var(--acc); }
+.sc-piece:is(:hover, .is-hover) .ptc-line i { animation: ptc-prog 9s linear infinite; }
+@keyframes ptc-prog { from { width: 8%; } to { width: 96%; } }
+
+/* video: the picture, framed, the title under it */
+.ptc-video { padding: 10px 10px 14px; }
+.ptc-screen { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px 16px 13px 15px; background: #1d1f26; }
+.ptc-screen > * { position: absolute; inset: 0; }
+.ptc-screen img { width: 100%; height: 100%; object-fit: cover; }
+.ptc-caption { display: grid; gap: 2px; padding: 12px 8px 0; }
+.ptc-caption .ptc-title { font-size: 21px; -webkit-line-clamp: 1; }
+
+/* photos: a simple cream mat */
+.ptc-photo { margin: 0; padding: 10px 10px 12px; display: grid; grid-template-columns: minmax(0, 1fr); }
+.ptc-mat { display: block; overflow: hidden; border-radius: 13px 15px 12px 14px; }
+.ptc-mat img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: scale 1.2s var(--ease); }
+.ptc-photo-tall .ptc-mat img { aspect-ratio: 4 / 5; }
+.ptc-photo figcaption { padding: 9px 6px 0; font-size: 21px; line-height: 1.1; color: var(--ink-soft); text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sc-piece:is(:hover, .is-hover) .ptc-mat img { scale: 1.035; }
+
+/* notes: a line from a letter */
+.ptc-note { padding: 22px 24px 24px; }
+.ptc-note p { margin: 0; font-family: var(--font-serif), serif; font-size: 25px; line-height: 1.2; color: var(--ink); overflow-wrap: anywhere; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; }
+.ptc-note-short p { font-size: 32px; line-height: 1.05; }
+.ptc-note-long p { font-size: 21px; line-height: 1.28; }
+.ptc-note strong { font-weight: 400; font-style: italic; color: var(--acc); }
+
+/* the stamp note: a small vermilion seal */
+.ptc-seal { display: block; width: 84px; aspect-ratio: 1; rotate: 9deg; filter: drop-shadow(0 6px 8px rgb(120 40 10 / .28)); transition: rotate .6s var(--ease), scale .2s var(--ease); }
+.ptc-seal svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ptc-seal svg > circle:first-of-type, .ptc-seal-ring { fill: none; }
+.ptc-seal { background: radial-gradient(circle at 38% 32%, #ee7a55, var(--acc) 55%, #c9431f); border-radius: 50%; }
+.ptc-seal-ring { stroke: rgb(255 246 236 / .55); stroke-width: 1.3; }
+.ptc-seal-mark { fill: #fff6ec; opacity: .92; }
+.ptc-seal text { font-family: var(--font-geist), sans-serif; font-weight: 700; letter-spacing: .16em; fill: #fff6ec; }
+.sc-piece:is(:hover, .is-hover) > .ptc-seal { rotate: -4deg; }
+.sc-piece:is(:active, .is-press) > .ptc-seal { scale: .92; transition-duration: .12s; }
+
+/* you */
+.ptc-me { display: grid; gap: 12px; padding: 28px 28px 26px; }
+.ptc-portrait { width: 112px; margin-bottom: 6px; }
+.ptc-portrait .tessy-avatar { width: 100%; height: auto; aspect-ratio: 1; overflow: hidden; border-radius: 50%; border: 0; box-shadow: 0 0 0 5px var(--card), 0 0 0 6px var(--line), 0 14px 24px -12px rgb(60 40 20 / .5); }
+.ptc-portrait .tessy-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ptc-portrait .tessy-avatar > span { font-family: var(--font-serif), serif; font-size: 46px; color: var(--ink); background: var(--paper); }
+.ptc-name { margin: 0; font-family: var(--font-serif), serif; font-weight: 400; font-size: clamp(42px, calc(900px / max(8, var(--nlen, 12))), 58px); line-height: .96; letter-spacing: -.015em; color: var(--ink); overflow-wrap: anywhere; text-wrap: balance; }
+.ptc-bio { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--ink-soft); text-wrap: pretty; }
+.ptc-where { margin: -2px 0 0; font-size: 21px; line-height: 1.1; color: color-mix(in oklab, var(--ink) 70%, var(--acc)); }
+.ptc-name textarea, .ptc-bio textarea, .ptc-where input { font: inherit; color: inherit; letter-spacing: inherit; }
+.ptc-socials { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.ptc-social { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background .3s, color .3s, translate .4s var(--ease); }
+.ptc-social b { font-size: 17px; }
+.sc-piece:is(:hover, .is-hover) > .ptc-social { background: var(--ink); color: var(--card); translate: 0 -2px; }
+.sc-piece:is(:active, .is-press) > .ptc-social { translate: 0 0; scale: .94; }
+.ptc-seals { position: absolute; top: -26px; right: -22px; display: flex; gap: 4px; }
+
+/* the kite: one, drifting */
+.pts-kite { display: block; width: 92px; pointer-events: none; animation: pts-kite 9s ease-in-out infinite alternate; transform-origin: 27% 31%; }
+.pts-kite img { display: block; width: 100%; filter: drop-shadow(0 12px 14px rgb(30 40 70 / .18)); }
+@keyframes pts-kite { from { translate: 0 0; rotate: -4deg; } to { translate: 8px -10px; rotate: 3deg; } }
+.pts-night .pts-kite img { filter: brightness(.82) drop-shadow(0 12px 14px rgb(0 0 20 / .35)); }
+
+/* ================= the computer: you and your lead link up top, then even rows on one six-column grid ================= */
+.pts-desk { --g: 20px; position: relative; display: grid; gap: var(--g); align-content: start; max-width: 1180px; margin: 0 auto; padding: 64px 40px 48px; }
+/* with only a few things, the whole composition sits in the middle of the first screen */
+.sc-desktop:not([data-only]) > .pts-desk { min-height: calc(100svh - 48px); align-content: center; }
+.pts-desk.pts-few { max-width: 1080px; }
+.pts-head, .pts-row, .pts-pair { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--g); align-items: stretch; }
+.pts-head > .ptc-me { grid-column: span 2; align-content: center; }
+.pts-beside { grid-column: span 4; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--g); }
+.pts-beside-solo { grid-template-rows: minmax(0, 1fr); }
+.pts-head-alone { grid-template-columns: minmax(0, 560px); justify-content: center; }
+.pts-head-alone > .ptc-me { grid-column: auto; }
+.pts-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pts-pair.pts-n-1 { grid-template-columns: minmax(0, 1fr); }
+.pts-group { display: grid; gap: var(--g); margin-top: 10px; }
+.pts-row-small.pts-n-3 > * { grid-column: span 2; }
+.pts-row-small.pts-n-2 > * { grid-column: span 3; }
+.pts-row-small.pts-n-1 > * { grid-column: span 6; }
+.pts-row-feat.pts-n-3 { grid-auto-rows: 300px; }
+.pts-row-feat.pts-n-3 > * { grid-column: span 2; }
+.pts-row-feat.pts-n-2 { grid-auto-rows: 330px; }
+.pts-row-feat.pts-n-2 > * { grid-column: span 3; }
+.pts-row-feat.pts-n-1 { grid-auto-rows: 440px; }
+.pts-row-feat.pts-n-1 > * { grid-column: 2 / span 4; }
+.pts-row-stack { grid-auto-rows: 360px; }
+.pts-row-stack > .pts-feat { grid-column: span 4; }
+.pts-row-stack > .pts-stackcol { grid-column: span 2; display: grid; grid-auto-rows: minmax(0, 1fr); gap: var(--g); }
+.pts-stack-2 > .pts-feat, .pts-stack-1 > .pts-feat { grid-column: span 3; }
+.pts-stack-2 > .pts-stackcol, .pts-stack-1 > .pts-stackcol { grid-column: span 3; }
+.pts-stack-1 { grid-auto-rows: 300px; }
+/* every card fills its cell, so rows end level */
+.pts-desk :is(.pts-head, .pts-row, .pts-pair, .pts-beside, .pts-stackcol) > .sc-piece { height: 100%; min-height: 0; }
+.pts-desk :is(.pts-head, .pts-row, .pts-pair, .pts-beside, .pts-stackcol) > .sc-piece > .ptc { height: 100%; }
+.pts-desk .ptc-link .ptc-body { height: 100%; grid-template-rows: auto 1fr; align-content: start; }
+.pts-desk .ptc-link .ptc-site { align-self: end; }
+.pts-desk .ptc-has-pic .ptc-body { grid-template-rows: 1fr auto; }
+.pts-desk .ptc-has-pic .ptc-pic { min-height: 0; margin: 10px 0 10px 10px; }
+.pts-desk .ptc-note { display: flex; align-items: center; }
+.pts-desk .ptc-music { align-content: center; }
+.pts-desk .pts-feat .ptc-photo, .pts-desk .pts-hero-pic .ptc-photo { display: flex; flex-direction: column; }
+.pts-desk .pts-feat .ptc-mat, .pts-desk .pts-hero-pic .ptc-mat { flex: 1; min-height: 0; }
+.pts-desk .pts-feat .ptc-mat img, .pts-desk .pts-hero-pic .ptc-mat img { height: 100%; aspect-ratio: auto; }
+.pts-desk .pts-feat .ptc-video, .pts-desk .pts-hero-pic .ptc-video { display: flex; flex-direction: column; }
+.pts-desk .pts-feat .ptc-screen, .pts-desk .pts-hero-pic .ptc-screen { flex: 1; min-height: 0; aspect-ratio: auto; }
+/* the lead link, bigger when it has the space */
+.pts-head .ptc-big .ptc-title { font-size: clamp(34px, 3.2vw, 44px); }
+.pts-few .pts-head .ptc-big:not(.ptc-has-pic) .ptc-title { font-size: clamp(44px, 4.6vw, 68px); }
+.pts-few .pts-head .ptc-big:not(.ptc-has-pic) .ptc-fav { width: 56px; height: 56px; }
+.pts-few .pts-head .ptc-big:not(.ptc-has-pic) .ptc-body { grid-template-columns: 56px minmax(0, 1fr); padding: 36px 36px 28px 32px; }
+.pts-head .ptc-big:not(.ptc-has-pic) .ptc-body { padding: 30px 30px 24px 26px; row-gap: 18px; }
+.pts-beside-solo .ptc-big .ptc-title, .pts-few .pts-beside-solo .ptc-big:not(.ptc-has-pic) .ptc-title { font-size: clamp(52px, 6vw, 88px); -webkit-line-clamp: 3; }
+.pts-beside-solo .ptc-big .ptc-sub { font-size: 17px; }
+/* a picture beside you takes your card's height instead of setting it */
+.pts-desk .pts-hero-pic .ptc-mat, .pts-desk .pts-hero-pic .ptc-screen { position: relative; min-height: 260px; }
+.pts-desk .pts-hero-pic .ptc-mat img { position: absolute; inset: 0; width: 100%; }
+.pts-desk .pts-label { margin: 6px 0 -6px 8px; }
+/* the kite, at the edge of the sky, only where there is room for it */
+.pts-kite-d { position: absolute; top: 40px; left: -70px; width: 80px; }
+@container page (max-width: 1340px) { .pts-kite-d { display: none; } }
+@container page (min-width: 1700px) { .pts-desk { max-width: 1280px; --g: 22px; } .pts-desk.pts-few { max-width: 1160px; } }
+@container page (max-width: 1060px) {
+  .pts-desk { padding: 48px 28px 40px; --g: 16px; }
+  .pts-head { grid-template-columns: minmax(0, 1fr); }
+  .pts-head > .ptc-me, .pts-beside { grid-column: auto; }
+  .pts-row, .pts-row-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
+  .pts-row > *, .pts-row-stack > .pts-feat, .pts-row-stack > .pts-stackcol, .pts-row-feat.pts-n-1 > * { grid-column: auto !important; }
+  .pts-row-feat, .pts-row-stack { grid-auto-rows: 300px; }
+  .pts-row-small.pts-n-1 > *, .pts-row-feat.pts-n-1 > * { grid-column: 1 / -1 !important; }
+  .pts-row-small.pts-n-3 > :last-child { grid-column: 1 / -1 !important; }
+  .pts-row-feat.pts-n-3 > :last-child { grid-column: 1 / -1 !important; }
+}
+
+/* List on a computer: the phone arrangement, a little wider */
+@container page (min-width: 761px) {
+  .tessy-scene-list .pts-phone { max-width: 560px; padding-top: 104px; }
+}
+
+/* ================= the phone: one column under your card ================= */
+.pts-phone { position: relative; display: grid; gap: 16px; max-width: 460px; margin: 0 auto; padding: 92px 16px 36px; }
+.pts-phone .ptc-me { justify-items: center; text-align: center; padding: 0 22px 24px; }
+.pts-phone .ptc-portrait { width: 108px; margin-top: -54px; }
+.pts-phone .ptc-me:not(:has(.ptc-portrait)) { padding-top: 30px; }
+.pts-phone .ptc-name { font-size: clamp(40px, calc(760px / max(8, var(--nlen, 12))), 52px); }
+.pts-phone .ptc-socials { justify-content: center; }
+.pts-phone .ptc-seals { top: -20px; right: -8px; }
+.pts-phone .ptc-seal { width: 80px; }
+.pts-kite-m { position: absolute; top: 6px; left: 24px; width: 58px; }
+.pts-stack { display: grid; gap: 14px; }
+/* a short page sits in the middle of the screen, not at the top of an empty sky */
+.sc-mobile:not([data-only]) > .pts-phone { min-height: calc(100svh - 48px); align-content: center; }
+.pts-phone .ptc-has-pic { grid-template-columns: minmax(0, 1fr); }
+.pts-phone .ptc-has-pic .ptc-pic { min-height: 0; aspect-ratio: 1.9; margin: 10px 10px 0; }
+.pts-phone .ptc-has-pic .ptc-body { padding: 18px 20px 18px; row-gap: 12px; }
+.pts-phone .ptc-big .ptc-title { font-size: 30px; }
+.pts-phone .ptc-big:not(.ptc-has-pic) .ptc-body { padding: 20px 20px 18px 18px; }
+.pts-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.pts-photos-one { grid-template-columns: minmax(0, 1fr); }
+.pts-photos .ptc-mat img { aspect-ratio: 1; }
+.pts-photos-one .ptc-mat img { aspect-ratio: 4 / 3; }
+.pts-photos .ptc-photo figcaption { font-size: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pts *, .pts, .ptk-lab *, .tessy-page.tessy-style-painted:is(.tessy-scene, .tessy-layout-canvas) .tessy-backdrop::before { animation: none !important; transition: none !important; }
+}
+
+/* section titles: a handwritten label on a small paper tag */
+.pts-label { justify-self: start; max-width: 100%; margin: 10px 0 -4px 6px; }
+.pts-label:first-child { margin-top: 0; }
+.ptc-tag { position: relative; display: inline-block; max-width: 100%; margin: 0; padding: 4px 20px 6px; border-radius: var(--edge); background: var(--card); box-shadow: inset 0 0 0 1px var(--line), var(--shadow); color: var(--ink); font-size: 30px; line-height: 1.1; rotate: -1.5deg; }
+.ptc-tag span { display: block; overflow-wrap: anywhere; }
+.ptc-tag::before { content: ""; position: absolute; left: -9px; top: 50%; width: 12px; height: 12px; translate: 0 -50%; border-radius: 50%; background: var(--acc); box-shadow: 0 0 0 3px var(--card); }
+.pts-phone .pts-label { margin: 8px 0 -2px 8px; }
+.pts-phone .ptc-tag { font-size: 27px; }
+/* several seals don't fit the card's corner: they sit in a row at its foot */
+.ptc-seals-row { position: static; flex-wrap: wrap; justify-content: center; gap: 6px 10px; margin-top: 8px; }
+.ptc-seals-row .ptc-seal, .pts-phone .ptc-seals-row .ptc-seal { width: 70px; }
+
+/* ================= Canvas: the same cards, each filling the box the canvas gives it ================= */
+.tessy-preset-starry :is(.ptv, .ptv-head) {
+  --card: #f8f1e4; --paper: #ece3d3; --line: rgb(45 39 35 / .14);
+  --shadow: 0 1px 1px rgb(0 0 20 / .2), 0 4px 8px rgb(0 0 20 / .15), 0 28px 50px -26px rgb(0 0 20 / .7);
+  --shadow-up: 0 1px 1px rgb(0 0 20 / .2), 0 8px 14px rgb(0 0 20 / .18), 0 36px 60px -26px rgb(0 0 20 / .75);
+}
+.ptv { container: ptv / size; width: 100%; height: 100%; }
+.ptv > .ptc { width: 100%; height: 100%; overflow: hidden; }
+.ptv .ptc-fav img, .ptv .ptc-fav svg { width: 20px; height: 20px; object-fit: contain; }
+.ptv .ptc-cover img { width: 100%; height: 100%; }
+.tessy-tile:is(:hover, .is-hover) > .ptv > .ptc { translate: 0 -3px; box-shadow: inset 0 0 0 1px var(--line), var(--shadow-up); }
+.tessy-tile:is(:hover, .is-hover) .ptv .ptc-go { background: var(--acc); color: #fff; box-shadow: none; translate: 2px -2px; }
+.tessy-tile:is(:hover, .is-hover) .ptv :is(.ptc-pic, .ptc-mat) > img { scale: 1.035; }
+.tessy-tile:is(:hover, .is-hover) .ptv .ptc-play { background: var(--acc); }
+.tessy-tile:is(:hover, .is-hover) .ptv .ptc-seal { rotate: -4deg; }
+.tessy-page.tessy-style-painted.tessy-layout-canvas .tessy-tile:has(.ptv) { filter: none; }
+/* links: words at the top, the site at the foot; the picture only where there is room */
+.ptv .ptc-link .ptc-body { height: 100%; grid-template-rows: auto 1fr; }
+.ptv .ptc-link .ptc-site { align-self: end; }
+.ptv .ptc-big:not(.ptc-has-pic) .ptc-title { font-size: clamp(22px, 9cqh, 34px); }
+.ptv .ptc-has-pic .ptc-body { grid-template-rows: 1fr auto; }
+.ptv .ptc-has-pic .ptc-pic { min-height: 0; }
+/* a roomy box: bigger words; a tall box: the picture on top */
+.ptv .ptc-link .ptc-title { font-size: clamp(23px, min(15cqh, 8cqw), 46px); -webkit-line-clamp: 3; }
+.ptv .ptc-link .ptc-sub { -webkit-line-clamp: 3; }
+@container ptv (max-aspect-ratio: 6 / 5) {
+  .ptv .ptc-has-pic { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .ptv .ptc-has-pic .ptc-pic { margin: 10px 10px 0; }
+  .ptv .ptc-has-pic .ptc-body { padding: 16px 20px 16px; row-gap: 12px; }
+  .ptv .ptc-has-pic .ptc-title { font-size: clamp(23px, 9cqw, 34px); -webkit-line-clamp: 2; }
+}
+@container ptv (max-height: 210px) or ((max-width: 420px) and (min-aspect-ratio: 6 / 5)) {
+  .ptv .ptc-has-pic { display: block; }
+  .ptv .ptc-has-pic .ptc-pic { display: none; }
+  .ptv .ptc-has-pic .ptc-body, .ptv .ptc-big .ptc-body { grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "fav words" "fav site"; grid-template-rows: auto 1fr; padding: 14px 16px 13px 14px; row-gap: 5px; }
+  .ptv .ptc-has-pic .ptc-body > .ptc-fav { display: grid; }
+  .ptv .ptc-big .ptc-fav { width: 40px; height: 40px; }
+  .ptv .ptc-big .ptc-title { font-size: 23px; -webkit-line-clamp: 2; }
+  .ptv .ptc-big .ptc-sub { font-size: 13.5px; -webkit-line-clamp: 2; }
+  .ptv .ptc-big .ptc-go { width: 28px; height: 28px; }
+}
+@container ptv (max-height: 130px) { .ptv .ptc-sub { display: none; } }
+/* music, video, photos: the picture takes the room that is left */
+.ptv .ptc-music { align-content: center; grid-template-columns: min(84px, 60cqh) minmax(0, 1fr); }
+.ptv .ptc-cover { width: min(84px, 60cqh); }
+@container ptv (min-height: 260px) and (min-width: 260px) {
+  .ptv .ptc-music { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; align-content: stretch; padding: 12px 12px 16px; gap: 12px; }
+  .ptv .ptc-cover { width: 100%; height: 100%; aspect-ratio: auto; }
+  .ptv .ptc-music .ptc-words { padding: 0 6px; }
+}
+.ptv .ptc-video, .ptv .ptc-photo { display: flex; flex-direction: column; }
+.ptv .ptc-screen, .ptv .ptc-mat { flex: 1; min-height: 0; aspect-ratio: auto; }
+.ptv .ptc-mat img { height: 100%; aspect-ratio: auto; }
+@container ptv (max-height: 170px) { .ptv .ptc-caption { display: none; } .ptv .ptc-video { padding-bottom: 10px; } }
+/* notes and the seal */
+.ptv .ptc-note { display: flex; align-items: center; }
+.ptv .ptc-note p { -webkit-line-clamp: 9; }
+@container ptv (max-height: 170px) { .ptv .ptc-note { padding: 14px 18px; } .ptv .ptc-note p { font-size: 21px; -webkit-line-clamp: 3; } }
+.ptv-seal { display: grid; place-items: center; width: 100%; height: 100%; }
+.ptv-seal .ptc-seal { width: min(80%, 80cqh, 150px); }
+/* a social: its mark, its name, your handle */
+.ptv-social { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 16px; }
+.ptv-social .ptc-title { -webkit-line-clamp: 1; }
+.ptv-social .ptc-sub { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+@container ptv (max-width: 200px) { .ptv-social { grid-template-columns: auto minmax(0, 1fr); } .ptv-social > .ptc-go { display: none; } }
+
+/* the header: you, on one wide card */
+.tessy-page.tessy-style-painted.tessy-layout-canvas .st-head-painted { display: block; }
+.ptv-head { display: block; margin-bottom: 8px; }
+.ptc-me-wide { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px 32px; padding: 28px 32px; }
+.ptc-me-wide .ptc-portrait { margin: 0; width: 124px; }
+.ptc-me-words { display: grid; gap: 10px; min-width: 0; }
+.ptc-me-wide .ptc-name { font-size: clamp(40px, calc(1000px / max(8, var(--nlen, 12))), 62px); }
+.ptc-me-wide .ptc-bio { max-width: 52ch; }
+.ptv-socials { margin: 0; max-width: 240px; justify-content: flex-end; }
+.ptv-socials .tessy-social-row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin: 0; }
+.tessy-style-painted .ptv-socials .tessy-social-row a { width: 42px; height: 42px; border-radius: 50%; -webkit-mask: none; mask: none; background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transform: none; }
+.tessy-style-painted .ptv-socials .tessy-social-row a:hover { background: var(--ink); color: var(--card); transform: translateY(-2px); }
+@container page (max-width: 760px) {
+  .ptc-me-wide { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; padding: 26px 22px; }
+  .ptv-socials, .ptv-socials .tessy-social-row { justify-content: center; max-width: none; }
+}
+/* section titles on the canvas: the same paper tag */
+.tessy-page.tessy-style-painted.tessy-layout-canvas .tessy-section { display: inline-block; margin: 0 0 4px 10px; padding: 4px 20px 6px; border-radius: 22px 26px 24px 20px / 24px 20px 26px 22px; background: #fffefb; box-shadow: inset 0 0 0 1px rgb(45 39 35 / .11), 0 3px 6px rgb(60 40 20 / .05), 0 24px 44px -28px rgb(60 40 20 / .5); color: #2d2723; font-family: var(--font-caveat), cursive; font-weight: 600; font-size: 30px; line-height: 1.1; rotate: -1.5deg; }
+.tessy-page.tessy-style-painted.tessy-layout-canvas .tessy-section::after { display: none; }
+.tessy-page.tessy-style-painted.tessy-layout-canvas .tessy-footer a { color: #fffefb; text-shadow: 0 1px 8px rgb(30 40 70 / .5); }

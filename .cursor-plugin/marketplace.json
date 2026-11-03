@@ -1,0 +1,21 @@
+{
+  "name": "tessy",
+  "owner": {
+    "name": "codewithevilxd",
+    "email": "codewithevilxd@gmail.com"
+  },
+  "metadata": {
+    "description": "Tessy, a hand-made link-in-bio page."
+  },
+  "plugins": [
+    {
+      "name": "tessy",
+      "source": "plugin",
+      "description": "Make and edit a Tessy link-in-bio page. Adds the Tessy MCP server.",
+      "homepage": "https://tessy.page",
+      "repository": "https://github.com/codewithevilxd/tessy",
+      "license": "MIT",
+      "logo": "https://tessy.page/brand/tessy-app-512.png"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "tessy",
+  "owner": { "name": "codewithevilxd", "url": "https://github.com/codewithevilxd" },
+  "metadata": { "description": "Make and edit a Tessy link-in-bio page from Claude Code." },
+  "plugins": [
+    {
+      "name": "tessy",
+      "source": "./plugin",
+      "description": "Make a link-in-bio page, add links, change the look and publish, by just asking.",
+      "version": "2.0.0",
+      "category": "productivity",
+      "keywords": ["link-in-bio", "linktree", "mcp", "portfolio"]
+    }
+  ]
+}

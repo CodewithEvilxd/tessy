@@ -1,0 +1,8 @@
+{
+  "name": "tessy",
+  "version": "2.0.0",
+  "description": "Make and edit a Tessy link-in-bio page. Adds the Tessy MCP server.",
+  "author": { "name": "codewithevilxd" },
+  "homepage": "https://tessy.page",
+  "logo": "https://tessy.page/brand/tessy-app-512.png"
+}

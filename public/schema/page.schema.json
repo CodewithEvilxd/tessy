@@ -1,0 +1,1354 @@
+{
+  "title": "Tessy page",
+  "$id": "https://tessy.page/schema/page.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "default": 2,
+      "anyOf": [
+        {
+          "type": "number",
+          "const": 1
+        },
+        {
+          "type": "number",
+          "const": 2
+        }
+      ]
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bio": {
+          "default": "",
+          "type": "string"
+        },
+        "avatar": {
+          "description": "Image URL or /path in public/",
+          "type": "string"
+        },
+        "avatarFocus": {
+          "description": "Crop: the point of the avatar to keep in frame (default is the centre)",
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Horizontal focal point, 0 (left) to 100 (right); 50 is the centre"
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Vertical focal point, 0 (top) to 100 (bottom); 50 is the centre"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "avatarZoom": {
+          "description": "Crop: zoom into the avatar around `avatarFocus`, 1 (default) to 3",
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "location": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "preset": {
+          "default": "cream",
+          "type": "string",
+          "enum": [
+            "cream",
+            "lavender",
+            "mint",
+            "sky",
+            "peach",
+            "paper",
+            "blush",
+            "sage",
+            "midnight",
+            "mocha",
+            "dusk",
+            "linen",
+            "matcha",
+            "rosewater",
+            "night-garden",
+            "phosphor",
+            "amber",
+            "synth",
+            "ocean",
+            "oak",
+            "slate",
+            "white",
+            "stone",
+            "ink",
+            "kinari",
+            "sakura",
+            "yomogi",
+            "sumi",
+            "daydream",
+            "night-blue",
+            "violet",
+            "rain",
+            "newsprint",
+            "salmon",
+            "ivory",
+            "late-edition",
+            "white-cube",
+            "gallery-sage",
+            "oxblood",
+            "dark-room",
+            "morning",
+            "golden-hour",
+            "dusk-sky",
+            "starry",
+            "cobalt",
+            "vermilion",
+            "moonlit",
+            "verdigris",
+            "netrunner",
+            "ice",
+            "redline",
+            "daylight",
+            "neon",
+            "cyan-rain",
+            "sodium",
+            "ultraviolet",
+            "sunset"
+          ]
+        },
+        "accent": {
+          "description": "Override the theme accent, e.g. \"#e8a87c\"",
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "font": {
+          "default": "editorial",
+          "type": "string",
+          "enum": [
+            "soft",
+            "editorial",
+            "washi",
+            "lofi",
+            "press",
+            "gallery",
+            "painted",
+            "night",
+            "cobalt",
+            "classic",
+            "elegant",
+            "rounded",
+            "playful",
+            "modern",
+            "tech",
+            "mono",
+            "hand",
+            "terminal",
+            "cyber",
+            "storybook",
+            "journal",
+            "stationery"
+          ]
+        },
+        "radius": {
+          "default": "round",
+          "type": "string",
+          "enum": [
+            "sharp",
+            "soft",
+            "round",
+            "pill"
+          ]
+        },
+        "style": {
+          "default": "cozy",
+          "description": "cozy = Desk: tiles as objects on a desk (polaroids, sticky notes, records); minimal = a plain fallback (not offered: pick one of the other six); washi = a Japanese print (woodblock print header, paper, ink, red seal); lofi = a desktop left open (tiles as little app windows with pinstriped title bars, clay clouds by day, painted anime rooms at night); painted = a watercolour sky (deckled paper cards, painted edges, wax seals); night = a netrunner heads-up display (an ID badge header, cut-corner HUD panels with node numbers, photos scanned in one signal colour, circuit and commit-graph readouts, decrypted-message notes, a cassette, a hazard-label stamp); cobalt = a vintage print in two inks (a cobalt night sky over a cream plain, numbered plates, photos reprinted in two inks, verse on cobalt, a sun-burst seal)",
+          "type": "string",
+          "enum": [
+            "cozy",
+            "minimal",
+            "washi",
+            "lofi",
+            "painted",
+            "night",
+            "cobalt"
+          ]
+        },
+        "layout": {
+          "default": "bento",
+          "description": "bento = grid of tiles; list = Linktree-style stacked links; canvas = free placement, each tile at its own `pos` (x, y, w, h in a 1200-wide space, rotation r, layer z)",
+          "type": "string",
+          "enum": [
+            "bento",
+            "list",
+            "canvas"
+          ]
+        },
+        "align": {
+          "default": "side",
+          "description": "minimal style + bento only: profile beside the grid (side) or above it (center)",
+          "type": "string",
+          "enum": [
+            "side",
+            "center"
+          ]
+        },
+        "background": {
+          "default": {
+            "style": "solid",
+            "dim": 20,
+            "blur": 0,
+            "grain": true
+          },
+          "type": "object",
+          "properties": {
+            "style": {
+              "default": "solid",
+              "type": "string",
+              "enum": [
+                "solid",
+                "dots",
+                "grid",
+                "image"
+              ]
+            },
+            "image": {
+              "description": "Background image when style is \"image\"",
+              "type": "string"
+            },
+            "dim": {
+              "default": 20,
+              "description": "Darken an image background, 0–80 (%)",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 80
+            },
+            "blur": {
+              "default": 0,
+              "description": "Blur an image background, 0–24 (px)",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 24
+            },
+            "grain": {
+              "default": true,
+              "description": "Subtle film grain over the background",
+              "type": "boolean"
+            },
+            "color": {
+              "description": "Your own page colour, e.g. \"#f3e9dc\"; replaces the palette's background colour (textures and art still sit on top)",
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          }
+        },
+        "tileStyle": {
+          "default": "soft",
+          "type": "string",
+          "enum": [
+            "soft",
+            "glass",
+            "outline",
+            "solid"
+          ]
+        },
+        "effect": {
+          "default": "lift",
+          "description": "Hover effect on tiles",
+          "type": "string",
+          "enum": [
+            "lift",
+            "tilt",
+            "glow",
+            "none"
+          ]
+        },
+        "avatar": {
+          "default": "squircle",
+          "type": "string",
+          "enum": [
+            "squircle",
+            "circle",
+            "square",
+            "hidden"
+          ]
+        },
+        "photos": {
+          "description": "How photos are printed: natural colour, mono (black and white), dither (1-bit pixels) or ascii (drawn in characters); dither and ascii turn to colour on hover. Unset = the style's own default (Minimal dithers)",
+          "type": "string",
+          "enum": [
+            "natural",
+            "mono",
+            "dither",
+            "ascii"
+          ]
+        },
+        "motion": {
+          "default": true,
+          "type": "boolean"
+        },
+        "ambient": {
+          "default": true,
+          "description": "Moving light and weather where a style has it: leaf shadows on Desk, clay clouds and rain on Lofi, rain on Night",
+          "type": "boolean"
+        }
+      }
+    },
+    "seo": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "description": "Public URL of the page, used for share links and the QR code",
+          "type": "string"
+        }
+      }
+    },
+    "tiles": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "link"
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Absolute URL (https://...) or a path inside /public"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "image": {
+                "description": "Preview image shown on wide/large tiles",
+                "type": "string"
+              },
+              "focus": {
+                "description": "Crop: the point of the tile's picture to keep in frame (default is the centre). Applies to `src` on image tiles and to `image` on link, video and music tiles",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Horizontal focal point, 0 (left) to 100 (right); 50 is the centre"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Vertical focal point, 0 (top) to 100 (bottom); 50 is the centre"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ]
+              },
+              "zoom": {
+                "description": "Crop: zoom into the picture around `focus`, 1 (no zoom, default) to 3",
+                "type": "number",
+                "minimum": 1,
+                "maximum": 3
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "url"
+            ],
+            "description": "Any link, shown with its favicon and title"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "social"
+              },
+              "platform": {
+                "type": "string",
+                "enum": [
+                  "x",
+                  "instagram",
+                  "github",
+                  "linkedin",
+                  "youtube",
+                  "tiktok",
+                  "threads",
+                  "bluesky",
+                  "mastodon",
+                  "dribbble",
+                  "behance",
+                  "spotify",
+                  "twitch",
+                  "discord",
+                  "substack",
+                  "medium",
+                  "reddit",
+                  "pinterest",
+                  "producthunt",
+                  "peerlist",
+                  "devto",
+                  "hashnode",
+                  "itch",
+                  "kofi",
+                  "buymeacoffee",
+                  "patreon",
+                  "soundcloud",
+                  "facebook",
+                  "telegram",
+                  "email"
+                ]
+              },
+              "handle": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Username without @"
+              },
+              "url": {
+                "description": "Override the profile URL",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "platform",
+              "handle"
+            ],
+            "description": "A social profile with the platform icon"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "text"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Short note. **bold** and [links](https://...) are supported"
+              },
+              "look": {
+                "description": "Desk layout: note = sticky note, stamp = round badge with the text running around it (keep it short)",
+                "type": "string",
+                "enum": [
+                  "note",
+                  "stamp"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "heading"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "text"
+            ],
+            "description": "Section title; always spans the full row"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "image"
+              },
+              "src": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Absolute URL (https://...) or a path inside /public"
+              },
+              "alt": {
+                "default": "",
+                "type": "string"
+              },
+              "url": {
+                "description": "Optional link when the image is clicked",
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "focus": {
+                "description": "Crop: the point of the tile's picture to keep in frame (default is the centre). Applies to `src` on image tiles and to `image` on link, video and music tiles",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Horizontal focal point, 0 (left) to 100 (right); 50 is the centre"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Vertical focal point, 0 (top) to 100 (bottom); 50 is the centre"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ]
+              },
+              "zoom": {
+                "description": "Crop: zoom into the picture around `focus`, 1 (no zoom, default) to 3",
+                "type": "number",
+                "minimum": 1,
+                "maximum": 3
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "src"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "video"
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "description": "YouTube URL"
+              },
+              "title": {
+                "type": "string"
+              },
+              "image": {
+                "description": "Custom thumbnail; defaults to the YouTube one",
+                "type": "string"
+              },
+              "focus": {
+                "description": "Crop: the point of the tile's picture to keep in frame (default is the centre). Applies to `src` on image tiles and to `image` on link, video and music tiles",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Horizontal focal point, 0 (left) to 100 (right); 50 is the centre"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Vertical focal point, 0 (top) to 100 (bottom); 50 is the centre"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ]
+              },
+              "zoom": {
+                "description": "Crop: zoom into the picture around `focus`, 1 (no zoom, default) to 3",
+                "type": "number",
+                "minimum": 1,
+                "maximum": 3
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "url"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "music"
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Spotify track, album, playlist or artist URL"
+              },
+              "title": {
+                "description": "Filled automatically from Spotify",
+                "type": "string"
+              },
+              "artist": {
+                "type": "string"
+              },
+              "image": {
+                "description": "Cover art, filled automatically from Spotify",
+                "type": "string"
+              },
+              "focus": {
+                "description": "Crop: the point of the tile's picture to keep in frame (default is the centre). Applies to `src` on image tiles and to `image` on link, video and music tiles",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Horizontal focal point, 0 (left) to 100 (right); 50 is the centre"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Vertical focal point, 0 (top) to 100 (bottom); 50 is the centre"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ]
+              },
+              "zoom": {
+                "description": "Crop: zoom into the picture around `focus`, 1 (no zoom, default) to 3",
+                "type": "number",
+                "minimum": 1,
+                "maximum": 3
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "url"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable unique id, e.g. \"t-abc123\""
+              },
+              "size": {
+                "default": "s",
+                "description": "s = 1x1, w = 2x1, t = 1x2, l = 2x2",
+                "type": "string",
+                "enum": [
+                  "s",
+                  "w",
+                  "t",
+                  "l"
+                ]
+              },
+              "color": {
+                "default": "auto",
+                "description": "Tile background. \"auto\" is the plain card colour; pick a tint to colour one tile",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "surface",
+                  "accent",
+                  "peach",
+                  "butter",
+                  "mint",
+                  "sky",
+                  "lilac",
+                  "rose"
+                ]
+              },
+              "pos": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1200,
+                    "description": "Left edge, 0–1200"
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Top edge, 0 and up"
+                  },
+                  "w": {
+                    "type": "number",
+                    "minimum": 24,
+                    "maximum": 1200,
+                    "description": "Width, up to 1200"
+                  },
+                  "h": {
+                    "type": "number",
+                    "minimum": 24,
+                    "description": "Height"
+                  },
+                  "r": {
+                    "default": 0,
+                    "description": "Rotation in degrees, -15 to 15",
+                    "type": "number",
+                    "minimum": -15,
+                    "maximum": 15
+                  },
+                  "z": {
+                    "default": 0,
+                    "description": "Layer: higher sits on top",
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "w",
+                  "h"
+                ],
+                "description": "Canvas layout only: where the tile sits. Tiles without it are placed automatically, flowing like the grid"
+              },
+              "type": {
+                "type": "string",
+                "const": "github"
+              },
+              "repo": {
+                "type": "string",
+                "pattern": "^[\\w.-]+\\/[\\w.-]+$",
+                "description": "owner/name"
+              },
+              "description": {
+                "description": "Filled automatically at build time",
+                "type": "string"
+              },
+              "stars": {
+                "description": "Filled automatically at build time",
+                "type": "number"
+              },
+              "language": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "repo"
+            ]
+          }
+        ]
+      }
+    },
+    "badge": {
+      "default": true,
+      "description": "Show a small \"Made with Tessy\" link in the footer",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile"
+  ]
+}

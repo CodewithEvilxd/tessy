@@ -1,0 +1,28 @@
+/* ================= Canvas layout =================
+   Tiles sit at free positions in a 1200-unit design space. --u is one unit in pixels at the current width,
+   so the whole arrangement scales with the page. Under 600px it becomes one readable column. */
+.tessy-page.tessy-layout-canvas .tessy-layout { max-width: 1280px; }
+.tessy-canvas-wrap { container: canvas / inline-size; }
+.tessy-canvas { --u: calc(100cqw / 1200); position: relative; isolation: isolate; height: calc(var(--ch, 0) * var(--u)); }
+.tessy-cv {
+  position: absolute; z-index: var(--z, 0);
+  left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u));
+  rotate: calc(var(--r, 0) * 1deg);
+}
+.tessy-cv > .tessy-tile { width: 100%; height: 100%; }
+.tessy-cv-heading { display: flex; align-items: flex-end; }
+.tessy-cv-heading .tessy-section { margin: 0; }
+
+@container canvas (max-width: 599px) {
+  /* Phones: one readable column in reading order (top to bottom, then left to right).
+     Small tiles pair up two across, as on the grid, so a row of icons does not become a wall of empty cards. */
+  .tessy-canvas { height: auto !important; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; gap: 14px; }
+  .tessy-cv {
+    position: relative; left: auto; top: auto; width: auto; rotate: none; z-index: auto; grid-column: span 2;
+    height: clamp(96px, calc(100cqw * var(--h) / var(--w)), 440px);
+  }
+  .tessy-cv-half { grid-column: span 1; height: clamp(120px, calc((50cqw - 7px) * var(--h) / var(--w)), 380px); }
+  .tessy-cv-heading { height: auto; margin-top: 18px; }
+  .tessy-cv-heading:first-child { margin-top: 0; }
+}

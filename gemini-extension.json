@@ -1,0 +1,10 @@
+{
+  "name": "tessy",
+  "version": "2.0.1",
+  "description": "Make and edit a hand-made link-in-bio page: add links, pick a look, publish.",
+  "mcpServers": {
+    "tessy": {
+      "httpUrl": "https://tessy.page/api/mcp"
+    }
+  }
+}

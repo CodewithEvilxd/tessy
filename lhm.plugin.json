@@ -1,0 +1,9 @@
+{
+  "identifier": "tessy",
+  "name": "Tessy",
+  "version": "2.0.0",
+  "description": "Make and edit a hand-made link-in-bio page: add links, pick a look, publish.",
+  "homepage": "https://tessy.page",
+  "cloudEndpoint": "https://tessy.page/api/mcp",
+  "tags": ["link-in-bio", "design"]
+}

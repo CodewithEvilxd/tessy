@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "tessy": { "type": "http", "url": "https://tessy.page/api/mcp" }
+  }
+}

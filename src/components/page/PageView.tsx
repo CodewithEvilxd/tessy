@@ -1,0 +1,292 @@
+// Server-rendered by default; animation, effects and sharing are small client islands.
+import { MapPin } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { avatarCrop } from '@/lib/crop';
+import type { Page, Tile } from '@/lib/schema';
+import { PLATFORMS, profileUrl } from '@/lib/platforms';
+import { pageStyle, pageClasses, tileBackground, isDark, photoLook } from '@/lib/style';
+import { asset, cn } from '@/lib/utils';
+import { MotionProvider, MotionShell, MotionHeader } from './motion';
+import { ShareButton, TileEffects, DraggableWindows, DitherPhotos } from './islands';
+import { TileContent, tileHref, brandHex, RichText, ListItem, BrandIcon } from './tiles';
+import { deskTilt } from './desk';
+import { StyleHeader, StyleTile, StyleRow, headerClass, socialsInHeader, sceneFor, sceneOnly, type StyleId } from './styles';
+import type { HeaderSlots } from './styles/types';
+import type { PieceFn } from './styles/scene';
+import { Halftone, LofiMenuBar } from './styles/lofi';
+import { Clouds3D } from './Clouds3D';
+import { placeTiles, looseStyle, canvasHeight, readingOrder, boxSize } from '@/lib/canvas-layout';
+import type { TilePos } from '@/lib/schema';
+import './canvas.css';
+
+/** Splits tiles into sections at each heading tile. */
+export function sections(tiles: Tile[]) {
+  const out: { heading?: Extract<Tile, { type: 'heading' }>; tiles: { tile: Tile; index: number }[] }[] = [{ tiles: [] }];
+  tiles.forEach((tile, index) => {
+    if (tile.type === 'heading') out.push({ heading: tile, tiles: [] });
+    else out[out.length - 1].tiles.push({ tile, index });
+  });
+  return out.filter(s => s.heading || s.tiles.length);
+}
+
+/** The 0-based position of each tile among the numbered ones (not headings or socials), so "01, 02, 03" never skips. */
+export function ordinals(tiles: Tile[]) {
+  const out = new Map<string, number>();
+  let n = 0;
+  for (const t of tiles) if (t.type !== 'heading' && t.type !== 'social') out.set(t.id, n++);
+  return out;
+}
+
+/** Decorative background: gradients, mesh, aurora, patterns or a photo, plus optional grain. */
+export function Backdrop() {
+  return <div aria-hidden className="tessy-backdrop"><span className="tessy-noise" /></div>;
+}
+
+export function PageFrame({ page, children, profile, className, interactive = true }: { page: Page; children: ReactNode; profile?: ReactNode; className?: string; interactive?: boolean }) {
+  const fx = page.theme.effect === 'tilt' || page.theme.effect === 'glow';
+  const scene = !!sceneFor(page.theme);
+  return (
+    <div className={cn(pageClasses(page), className)} style={{ ...pageStyle(page), colorScheme: isDark(page) ? 'dark' : 'light' }}>
+      <Backdrop />
+      {/* the WebGL clouds only run on a real page, never in thumbnails and previews (each one is a full-size canvas) */}
+      {/* looks with their own scene draw their own weather, bars and interactions */}
+      {interactive && !scene && page.theme.style === 'lofi' && !isDark(page) && page.theme.ambient && <Clouds3D />}
+      {(page.theme.style === 'lofi' || page.theme.style === 'night') && isDark(page) && page.theme.ambient && <div aria-hidden className="lf-rain" />}
+      {!scene && page.theme.style === 'lofi' && <LofiMenuBar name={page.profile.name} pinned={interactive} />}
+      {interactive && !scene && page.theme.style === 'lofi' && page.theme.layout === 'canvas' && <DraggableWindows />}
+      <MotionProvider enabled={page.theme.motion}>
+        <div className="tessy-layout">
+          {profile ?? <Profile page={page} interactive={interactive} />}
+          <main className="min-w-0">{children}</main>
+        </div>
+        {page.badge && (
+          <footer className="tessy-footer">
+            <a href={process.env.NEXT_PUBLIC_SITE_URL || '/'} target="_blank" rel="noopener" className="tessy-badge">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/tessy-cat-192.png" alt="" width={22} height={22} />
+              <span>Made with <b>Tessy</b></span>
+            </a>
+          </footer>
+        )}
+      </MotionProvider>
+      {page.theme.style === 'cozy' && !isDark(page) && page.theme.ambient && <div aria-hidden className="dk-sun"><i /></div>}
+      {interactive && fx && <TileEffects />}
+      {interactive && (photoLook(page) === 'dither' || photoLook(page) === 'ascii') && <DitherPhotos />}
+    </div>
+  );
+}
+
+export function Avatar({ page, className }: { page: Page; className?: string }) {
+  const { avatar, name } = page.profile;
+  const initials = name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  return (
+    <div className={cn('tessy-avatar', className)}>
+      {avatar
+        // eslint-disable-next-line @next/next/no-img-element
+        ? <img src={asset(avatar)} alt={name} className="size-full object-cover" style={avatarCrop(page.profile)} />
+        : <span className="tessy-head grid size-full place-items-center text-[40px]">{initials}</span>}
+    </div>
+  );
+}
+
+/** Linktree-style row of social icons (used by the list layout). */
+export function SocialRow({ tiles }: { tiles: Extract<Tile, { type: 'social' }>[] }) {
+  if (!tiles.length) return null;
+  return (
+    <nav aria-label="Social links" className="tessy-social-row">
+      {tiles.map(t => {
+        const p = PLATFORMS[t.platform];
+        return (
+          <a key={t.id} href={profileUrl(t.platform, t.handle, t.url)} target={t.platform === 'email' ? undefined : '_blank'} rel="noopener" aria-label={`${p.label}: ${t.handle}`}
+            style={{ '--brand': `#${p.icon?.hex ?? '6b7280'}` } as React.CSSProperties}>
+            {p.icon?.path ? <BrandIcon path={p.icon.path} size={19} /> : t.platform === 'email' ? <span className="text-[17px]">@</span> : <span className="text-[14px] font-bold">in</span>}
+            <span className="tessy-social-label">{p.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
+/** Desk names set the last word in italics, like a signature. */
+export function DeskName({ name }: { name: string }) {
+  const words = name.trim().split(/\s+/);
+  if (words.length < 2) return <>{name}</>;
+  return <>{words.slice(0, -1).join(' ')} <i>{words[words.length - 1]}</i></>;
+}
+
+export const socialTiles = (page: Page) => page.tiles.filter((t): t is Extract<Tile, { type: 'social' }> => t.type === 'social');
+
+/** The header's pieces as plain content, for styled headers and scenes. */
+export function profileSlots(page: Page): HeaderSlots {
+  const { name, bio, location, avatar } = page.profile;
+  const style = page.theme.style;
+  return {
+    avatar: page.theme.avatar === 'hidden' ? null : style === 'lofi' && avatar ? <Halftone src={avatar} profile={page.profile} className="tessy-avatar" /> : <Avatar page={page} />,
+    name: style === 'cozy' ? <DeskName name={name} /> : name,
+    bio: bio ? <RichText text={bio} /> : null,
+    caption: location || null,
+    socials: <SocialRow tiles={socialTiles(page)} />,
+  };
+}
+
+export function Profile({ page, interactive = true }: { page: Page; interactive?: boolean }) {
+  const { name, bio, location } = page.profile;
+  const { style, layout } = page.theme;
+  if (style !== 'minimal') {
+    return (
+      <MotionHeader className={headerClass(style)}>
+        <StyleHeader page={page} slots={profileSlots(page)} />
+      </MotionHeader>
+    );
+  }
+  const list = layout === 'list';
+  return (
+    <MotionHeader className="tessy-profile">
+      <Avatar page={page} />
+      <h1 className="tessy-head tessy-name" style={{ '--nlen': name.length } as React.CSSProperties}>{name}</h1>
+      {bio && <p className="tessy-bio"><RichText text={bio} /></p>}
+      <div className="tessy-meta">
+        {location && <span className="sf-pill"><MapPin className="size-3.5" />{location}</span>}
+        {interactive && <ShareButton url={page.seo.url} />}
+      </div>
+      {list && <SocialRow tiles={socialTiles(page)} />}
+    </MotionHeader>
+  );
+}
+
+export function TileShell({ tile, index, ord, children, editing, className, style, lift = true, look = 'minimal' }: { tile: Tile; index: number; ord?: number; children?: ReactNode; editing?: boolean; className?: string; style?: React.CSSProperties; lift?: boolean; look?: StyleId }) {
+  if (look !== 'minimal') {
+    return (
+      <MotionShell
+        href={editing ? null : tileHref(tile, true)}
+        index={index}
+        lift={lift}
+        label={ariaLabel(tile)}
+        tileId={tile.id}
+        className={cn('tessy-tile tessy-obj group block', `tessy-size-${tile.size}`, `tessy-type-${tile.type}`, className)}
+        style={{ '--rot': look === 'cozy' ? `${deskTilt(tile)}deg` : '0deg', ...style } as React.CSSProperties}
+      >
+        {children ?? <StyleTile style={look} tile={tile} index={ord ?? index} editing={editing} />}
+      </MotionShell>
+    );
+  }
+  return (
+    <MotionShell
+      href={editing ? null : tileHref(tile)}
+      index={index}
+      lift={lift}
+      label={ariaLabel(tile)}
+      tileId={tile.id}
+      className={cn('tessy-tile group block', `tessy-size-${tile.size}`, `tessy-type-${tile.type}`, className)}
+      style={{ '--tile-bg': tileBackground(tile, index, brandHex(tile)), ...style } as React.CSSProperties}
+    >
+      {children ?? <TileContent tile={tile} editing={editing} />}
+    </MotionShell>
+  );
+}
+
+function ariaLabel(tile: Tile) {
+  if (tile.type === 'social') return `${PLATFORMS[tile.platform].label}: ${tile.handle}`;
+  if (tile.type === 'link') return tile.title || tile.url;
+  if (tile.type === 'github') return `GitHub repository ${tile.repo}`;
+  return undefined;
+}
+
+export function SectionHeading({ text }: { text: string }) {
+  return <h2 className="tessy-head tessy-section">{text}</h2>;
+}
+
+function BentoTiles({ page }: { page: Page }) {
+  const lift = page.theme.effect === 'lift';
+  const tiles = socialsInHeader(page) ? page.tiles.filter(t => t.type !== 'social') : page.tiles;
+  const ord = ordinals(page.tiles);
+  return (
+    <>
+      {sections(tiles).map((s, i) => (
+        <section key={s.heading?.id ?? `top-${i}`} className="tessy-grid-wrap">
+          {s.heading && <SectionHeading text={s.heading.text} />}
+          {s.tiles.length > 0 && (
+            <div className="tessy-grid">
+              {s.tiles.map(({ tile, index }) => <TileShell key={tile.id} tile={tile} index={index} ord={ord.get(tile.id)} lift={lift} look={page.theme.style} />)}
+            </div>
+          )}
+        </section>
+      ))}
+    </>
+  );
+}
+
+function ListTiles({ page }: { page: Page }) {
+  const lift = page.theme.effect === 'lift';
+  const ord = ordinals(page.tiles);
+  return (
+    <div className="tessy-list">
+      {page.tiles.map((tile, index) => {
+        if (tile.type === 'social') return null;
+        if (tile.type === 'heading') return <SectionHeading key={tile.id} text={tile.text} />;
+        if (page.theme.style !== 'minimal') return (
+          <MotionShell key={tile.id} tileId={tile.id} href={tileHref(tile, true)} index={index} lift={lift} label={ariaLabel(tile)}
+            className={cn('tessy-row-st group block', `tessy-type-${tile.type}`, `tessy-size-${tile.size}`)}>
+            <StyleRow style={page.theme.style} tile={tile} index={ord.get(tile.id) ?? index} />
+          </MotionShell>
+        );
+        return (
+          <MotionShell key={tile.id} tileId={tile.id} href={tileHref(tile)} index={index} lift={lift} label={ariaLabel(tile)}
+            className={cn('tessy-tile tessy-row group', `tessy-type-${tile.type}`, `tessy-size-${tile.size}`)}
+            style={{ '--tile-bg': tileBackground(tile, index, brandHex(tile)) } as React.CSSProperties}>
+            <ListItem tile={tile} />
+          </MotionShell>
+        );
+      })}
+    </div>
+  );
+}
+
+/** CSS variables that place one tile on the canvas. */
+export const canvasVars = (pos: TilePos) => ({ '--x': pos.x, '--y': pos.y, '--w': pos.w, '--h': pos.h, '--r': pos.r, '--z': pos.z }) as React.CSSProperties;
+
+/** On phones, tiles up to about a third of the design width sit two across. */
+export const halfOnPhone = (pos: TilePos) => pos.w < 480;
+
+/** Free placement: every tile at its own position, scaled from the 1200-unit design space. Plain CSS, so it works without JS. */
+function CanvasTiles({ page }: { page: Page }) {
+  const lift = page.theme.effect === 'lift';
+  const tiles = socialsInHeader(page) ? page.tiles.filter(t => t.type !== 'social') : page.tiles;
+  const placed = placeTiles(tiles, looseStyle(page.theme.style));
+  const ord = ordinals(page.tiles);
+  return (
+    <div className="tessy-canvas-wrap">
+      <div className="tessy-canvas" style={{ '--ch': canvasHeight(placed) } as React.CSSProperties}>
+        {readingOrder(placed).map(({ tile, pos }, i) => tile.type === 'heading'
+          ? <div key={tile.id} className="tessy-cv tessy-cv-heading" style={canvasVars(pos)}><SectionHeading text={tile.text} /></div>
+          : (
+            <div key={tile.id} className={cn('tessy-cv', halfOnPhone(pos) && 'tessy-cv-half')} style={canvasVars(pos)}>
+              <TileShell tile={{ ...tile, size: boxSize(tile, pos) }} index={i} ord={ord.get(tile.id)} lift={lift} look={page.theme.style} />
+            </div>
+          ))}
+      </div>
+    </div>
+  );
+}
+
+/** On the public page every piece of a scene is a link (or a plain block), with the usual entrance. */
+// Plain wrappers (not TileShell), so the grid's size and object rules never reach a scene's own pieces.
+const publicPiece = (_style: StyleId): PieceFn => (tile, node, o) => (
+  <MotionShell key={o.key} href={tileHref(tile, true)} index={0} lift={false} label={ariaLabel(tile)} tileId={tile.id} className={cn('sc-piece', `sc-type-${tile.type}`, o.className)} style={o.style}>{node}</MotionShell>
+);
+
+/** The public, read-only page. `contained` renders it inside a box (previews, thumbnails, mockups). */
+export function PageView({ page, contained }: { page: Page; contained?: boolean }) {
+  const Scene = sceneFor(page.theme);
+  if (Scene) return (
+    <PageFrame page={page} className={cn('tessy-scene', sceneOnly(page.theme) && 'tessy-scene-list', contained && 'tessy-contained')} interactive={!contained} profile={<></>}>
+      <Scene page={page} slots={profileSlots(page)} piece={publicPiece(page.theme.style)} only={sceneOnly(page.theme)} />
+    </PageFrame>
+  );
+  return (
+    <PageFrame page={page} className={contained ? 'tessy-contained' : undefined} interactive={!contained}>
+      {page.theme.layout === 'list' ? <ListTiles page={page} /> : page.theme.layout === 'canvas' ? <CanvasTiles page={page} /> : <BentoTiles page={page} />}
+    </PageFrame>
+  );
+}

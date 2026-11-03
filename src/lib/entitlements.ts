@@ -1,0 +1,35 @@
+import 'server-only';
+import { edition } from '@/edition';
+import type { Entitlements } from '@/edition/types';
+import type { Page } from './schema';
+import { PREMIUM_THEMES } from './themes';
+import { PREMIUM_FONTS } from './style';
+import { PREMIUM_STYLES, STYLE_INFO } from './styles';
+
+export class EntitlementError extends Error {}
+
+export const entitlementsFor = (userId: string) => edition.entitlements(userId);
+
+/** Reject saves that use features the account's plan doesn't include. */
+export function assertAllowed(page: Page, e: Entitlements) {
+  if (!e.premium && PREMIUM_STYLES.has(page.theme.style)) throw new EntitlementError(`The ${STYLE_INFO[page.theme.style].label} style is part of Tessy Pro.`);
+  if (!e.premium && PREMIUM_THEMES.has(page.theme.preset)) throw new EntitlementError(`The "${page.theme.preset}" theme is part of Tessy Pro.`);
+  if (!e.premium && PREMIUM_FONTS.has(page.theme.font)) throw new EntitlementError(`The "${page.theme.font}" font is part of Tessy Pro.`);
+  if (!e.removeBranding && !page.badge) throw new EntitlementError('Hiding "Made with Tessy" is part of Tessy Pro.');
+}
+
+/** What visitors see if a plan lapses: fall back gracefully instead of breaking the page. */
+export function applyEntitlements(page: Page, e: Entitlements): Page {
+  // a Pro look falls back to Painted with its own palette and type; otherwise only Pro palettes and fonts fall back
+  const lapsed = !e.premium && PREMIUM_STYLES.has(page.theme.style);
+  return {
+    ...page,
+    badge: e.removeBranding ? page.badge : true,
+    theme: {
+      ...page.theme,
+      style: lapsed ? 'painted' : page.theme.style,
+      preset: lapsed ? 'morning' : !e.premium && PREMIUM_THEMES.has(page.theme.preset) ? 'cream' : page.theme.preset,
+      font: lapsed ? 'painted' : !e.premium && PREMIUM_FONTS.has(page.theme.font) ? 'editorial' : page.theme.font,
+    },
+  };
+}
