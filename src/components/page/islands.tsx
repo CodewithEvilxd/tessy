@@ -19,7 +19,7 @@ export function Favicon({ url }: { url: string }) {
   const ref = useRef<HTMLImageElement>(null);
   useEffect(() => { const i = ref.current; if (i && i.complete && i.naturalWidth === 0) setFailed(true); }, []);
   const host = faviconHost(url);
-  if (failed || !host.includes('.')) return <Link2 className="size-[18px]" />;
+  if (failed || !host.includes('.')) return <Link2 className="size-4.5" />;
   // eslint-disable-next-line @next/next/no-img-element
   return <img ref={ref} src={`https://icons.duckduckgo.com/ip3/${host}.ico`} alt="" width={20} height={20} className="size-5 rounded-[5px]" onError={() => setFailed(true)} loading="lazy" />;
 }
@@ -43,7 +43,7 @@ export function VideoPlayer({ id, title, editing, thumb, overlay = true, crop }:
         // eslint-disable-next-line @next/next/no-img-element
         ? <img key={src} src={src} alt="" className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" style={custom || size === 'maxresdefault' ? crop : { ...crop, transform: `scale(${1.34 * zoomOf(crop)})` }} loading="lazy" onError={next} onLoad={e => { if (!custom && e.currentTarget.naturalWidth <= 120) next(); }} />
         : <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#3a3a44,#14141a)]" />}
-      <span className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      <span className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
       <span className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 shadow-lg backdrop-blur transition-transform duration-300 group-hover:scale-110">
         <Play className="ml-0.5 size-5 fill-[#1b1b1b] text-[#1b1b1b]" />
       </span>
@@ -289,7 +289,7 @@ export function MusicPlayer({
           className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
         >
           <div
-            className="h-full bg-[var(--accent,#e05a47)] transition-all duration-150"
+            className="h-full bg-(--accent,#e05a47) transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -341,7 +341,7 @@ export function MusicPlayer({
           className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
         >
           <div
-            className="h-full bg-[var(--accent)] transition-all duration-150"
+            className="h-full bg-brand transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -385,7 +385,7 @@ export function MusicPlayer({
           className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
         >
           <div
-            className="h-full bg-[var(--accent)] transition-all duration-150"
+            className="h-full bg-brand transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -437,9 +437,9 @@ export function MusicPlayer({
       </div>
       <span className="sf-play" aria-hidden>
         {playing ? (
-          <Pause className="size-[17px] fill-current" />
+          <Pause className="size-4.25 fill-current" />
         ) : (
-          <Play className="size-[17px] fill-current ml-0.5" />
+          <Play className="size-4.25 fill-current ml-0.5" />
         )}
       </span>
       {/* Bottom progress bar */}
@@ -453,7 +453,7 @@ export function MusicPlayer({
         aria-valuemax={100}
       >
         <div
-          className="h-full bg-[var(--accent)] transition-all duration-150"
+          className="h-full bg-brand transition-all duration-150"
           style={{ width: `${progress}%` }}
         />
       </div>
