@@ -1,0 +1,35 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lockb, vitest.config.ts, playwright.config.ts",
+    "tsconfig.json": "tsconfig.*.json, tsconfig.tsbuildinfo, next-env.d.ts",
+    "next.config.*": "postcss.config.*, tailwind.config.*, components.json",
+    "Dockerfile": ".dockerignore, docker-compose.yml, docker-compose.*.yml",
+    ".env.example": ".env, .env.*",
+    "README.md": "AGENTS.md, BRAND.md, CHANGELOG.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md, LICENSE",
+    ".gitignore": ".editorconfig"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.data": true,
+    "**/.scratch": true,
+    "**/tsconfig.tsbuildinfo": true
+  },
+  "files.watcherExclude": {
+    "**/.data/**": true,
+    "**/.scratch/**": true,
+    "**/.next/**": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
