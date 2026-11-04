@@ -47,4 +47,4 @@ export function tileFromInput(input: string): Tile {
   return { id, type: 'link', url: href, size: 's', color: 'auto' };
 }
 
-export { hostOf, youtubeId, spotifyEmbed, isImageRef } from './url';
+export { hostOf, youtubeId, spotifyEmbed, musicEmbed, isImageRef } from './url';

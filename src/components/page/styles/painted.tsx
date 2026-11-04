@@ -5,7 +5,7 @@ import { ArrowUpRight, Play, Star } from 'lucide-react';
 import type { Page, Tile } from '@/lib/schema';
 import { asset, cn } from '@/lib/utils';
 import { youtubeId } from '@/lib/url';
-import { VideoPlayer } from '../islands';
+import { VideoPlayer, MusicPlayer } from '../islands';
 import { RichText } from '../tiles';
 import { tileMeta, compact } from './meta';
 import type { HeaderSlots } from './types';
@@ -73,10 +73,12 @@ export function PaintedTile({ tile, index, editing }: { tile: Tile; index: numbe
   }
 
   if (tile.type === 'music') return (
-    <div className="pt-paper pt-music" style={wash(tile, index)}>
-      <span className="pt-record">{m.image && <Img src={m.image} />}</span>
-      <div className="pt-text"><b>{m.title}</b><span>{m.sub}</span></div>
-    </div>
+    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} editing={editing}>
+      <div className="pt-paper pt-music" style={wash(tile, index)}>
+        <span className="pt-record">{m.image && <Img src={m.image} />}</span>
+        <div className="pt-text"><b>{m.title}</b><span>{m.sub}</span></div>
+      </div>
+    </MusicPlayer>
   );
 
   if (tile.type === 'github') return (

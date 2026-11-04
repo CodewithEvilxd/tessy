@@ -8,7 +8,7 @@ import type { Page, Tile } from '@/lib/schema';
 import { THEMES } from '@/lib/themes';
 import { asset, cn } from '@/lib/utils';
 import { hostOf, youtubeId } from '@/lib/url';
-import { VideoPlayer, PhotoExposure } from '../islands';
+import { VideoPlayer, PhotoExposure, MusicPlayer } from '../islands';
 import { cropStyle } from '@/lib/crop';
 import { RichText } from '../tiles';
 import { tileMeta, compact, seeded } from './meta';
@@ -251,19 +251,21 @@ export function NightTile({ tile, index, editing }: { tile: Tile; index: number;
   }
 
   if (tile.type === 'music') return (
-    <div className="nr-panel nr-tape-panel">
-      <div className="nr-in">
-        <Strip index={index} kind="Audio" go={false} />
-        <div className="nr-tape">
-          <span className="nr-tape-label">
-            {m.image && <Scan src={m.image} className="nr-tape-cover" crop={cropStyle(tile)} />}
-            <span className="nr-tape-text"><b className="nr-title">{m.title}</b><span className="nr-sub">{m.sub}</span></span>
-            <span className="nr-tape-side" aria-hidden>A</span>
-          </span>
-          <span className="nr-tape-window" aria-hidden><i className="nr-reel" /><span className="nr-tape-band" /><i className="nr-reel" /></span>
+    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+      <div className="nr-panel nr-tape-panel">
+        <div className="nr-in">
+          <Strip index={index} kind="Audio" go={false} />
+          <div className="nr-tape">
+            <span className="nr-tape-label">
+              {m.image && <Scan src={m.image} className="nr-tape-cover" crop={cropStyle(tile)} />}
+              <span className="nr-tape-text"><b className="nr-title">{m.title}</b><span className="nr-sub">{m.sub}</span></span>
+              <span className="nr-tape-side" aria-hidden>A</span>
+            </span>
+            <span className="nr-tape-window" aria-hidden><i className="nr-reel" /><span className="nr-tape-band" /><i className="nr-reel" /></span>
+          </div>
         </div>
       </div>
-    </div>
+    </MusicPlayer>
   );
 
   if (tile.type === 'github') return (

@@ -9,7 +9,7 @@ import { PLATFORMS } from '@/lib/platforms';
 import { asset, cn } from '@/lib/utils';
 import { cropStyle } from '@/lib/crop';
 import { cleanTitle, hostOf, siteName, youtubeId } from '@/lib/url';
-import { DeskObjects, Favicon, SafeImg, VideoPlayer } from '../islands';
+import { DeskObjects, Favicon, SafeImg, VideoPlayer, MusicPlayer } from '../islands';
 import { BrandIcon, RichText } from '../tiles';
 import { compact, tileMeta } from './meta';
 import { anatomy, Arrangements, SceneName, SceneTitle, type SceneProps } from './scene';
@@ -214,14 +214,16 @@ function LinkObject({ tile, featured, uid }: { tile: LinkTile; featured?: boolea
 }
 
 /** Music: a record half out of its sleeve, with the title on a strip of masking tape. */
-function Record({ tile }: { tile: Of<'music'> }) {
+function Record({ tile, editing }: { tile: Of<'music'>; editing?: boolean }) {
   const m = tileMeta(tile);
   return (
-    <div className={cn('dks-obj dks-rec', !m.image && 'dks-rec-plain')} style={{ '--paper': paperOf(tile, '#d9b98c') } as CSSProperties}>
-      <span className="dks-vinyl" aria-hidden><i /></span>
-      <span className="dks-sleeve">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="dks-sleeve-hole" />}</span>
-      <span className="dks-mtape"><b className="dks-hand">{m.title}</b>{tile.artist && <span className="dks-type">{tile.artist}</span>}</span>
-    </div>
+    <MusicPlayer url={tile.url} title={m.title} artist={tile.artist} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+      <div className={cn('dks-obj dks-rec', !m.image && 'dks-rec-plain')} style={{ '--paper': paperOf(tile, '#d9b98c') } as CSSProperties}>
+        <span className="dks-vinyl" aria-hidden><i /></span>
+        <span className="dks-sleeve">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="dks-sleeve-hole" />}</span>
+        <span className="dks-mtape"><b className="dks-hand">{m.title}</b>{tile.artist && <span className="dks-type">{tile.artist}</span>}</span>
+      </div>
+    </MusicPlayer>
   );
 }
 
@@ -241,7 +243,7 @@ function Ticket({ tile, editing }: { tile: Of<'video'>; editing?: boolean }) {
 }
 
 function Media({ tile, editing }: { tile: Media; editing?: boolean }) {
-  return tile.type === 'music' ? <Record tile={tile} /> : <Ticket tile={tile} editing={editing} />;
+  return tile.type === 'music' ? <Record tile={tile} editing={editing} /> : <Ticket tile={tile} editing={editing} />;
 }
 
 /** A photo: a polaroid taped down, captioned by hand. Wide photos are wide prints. */
@@ -491,7 +493,7 @@ export function DeskCanvasTile({ tile, editing }: { tile: Tile; index: number; e
   let kind: string, node: ReactNode;
   switch (tile.type) {
     case 'link': case 'github': kind = linkObject(tile, big); node = <LinkObject tile={tile} featured={big} uid={uid} />; break;
-    case 'music': kind = 'record'; node = <Record tile={tile} />; break;
+    case 'music': kind = 'record'; node = <Record tile={tile} editing={editing} />; break;
     case 'video': kind = 'ticket'; node = <Ticket tile={tile} editing={editing} />; break;
     case 'image': kind = 'photo'; node = <Polaroid tile={tile} />; break;
     case 'text': kind = tile.look === 'stamp' ? 'stamp' : 'note'; node = tile.look === 'stamp' ? <InkStamp tile={tile} uid={uid} /> : <Sticky tile={tile} />; break;

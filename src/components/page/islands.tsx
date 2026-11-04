@@ -1,10 +1,11 @@
 'use client';
 
 // Small interactive bits of the public page.
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { zoomOf } from '@/lib/crop';
-import { Link2, Play, Share2, Check } from 'lucide-react';
-import { hostOf, faviconHost } from '@/lib/url';
+import { Link2, Play, Share2, Check, X, Music2, ArrowUpRight } from 'lucide-react';
+import { hostOf, faviconHost, musicEmbed } from '@/lib/url';
+import { cn } from '@/lib/utils';
 
 /** A small live clock, like a desktop menubar (Lofi). Renders the time on the server too, so nothing jumps. */
 export function LiveClock() {
@@ -48,6 +49,216 @@ export function VideoPlayer({ id, title, editing, thumb, overlay = true, crop }:
       </span>
       {title && overlay && <span className="absolute inset-x-4 bottom-3 line-clamp-1 text-[14px] font-medium text-white">{title}</span>}
     </button>
+  );
+}
+
+export function MusicPlayer({
+  url,
+  title,
+  artist,
+  thumb,
+  crop,
+  size,
+  editing,
+  compact = false,
+  children,
+  className,
+}: {
+  url: string;
+  title?: string;
+  artist?: string;
+  thumb?: string;
+  crop?: CSSProperties;
+  size?: 's' | 'm' | 'w' | 'l' | 't';
+  editing?: boolean;
+  compact?: boolean;
+  children?: ReactNode;
+  className?: string;
+}) {
+  const [playing, setPlaying] = useState(false);
+  const embed = musicEmbed(url);
+
+  if (playing && !editing && embed) {
+    return (
+      <div className={cn('relative size-full overflow-hidden rounded-[inherit] bg-[#121212]', compact ? 'min-h-[80px] h-[152px]' : 'min-h-[120px] h-full')}>
+        <iframe
+          className="size-full border-0 rounded-[inherit]"
+          src={embed}
+          title={title || 'Music player'}
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setPlaying(false);
+          }}
+          className="absolute right-2 top-2 z-30 grid size-7 place-items-center rounded-full bg-black/80 text-white/90 hover:bg-black hover:text-white shadow-md backdrop-blur transition-all"
+          aria-label="Close music player"
+          title="Close player"
+        >
+          <X className="size-4" />
+        </button>
+      </div>
+    );
+  }
+
+  const triggerPlay = (e: React.MouseEvent | React.KeyboardEvent) => {
+    if (editing) return;
+    if (embed) {
+      e.preventDefault();
+      e.stopPropagation();
+      setPlaying(true);
+    }
+  };
+
+  if (children) {
+    return (
+      <div
+        role="button"
+        tabIndex={editing ? -1 : 0}
+        onClick={triggerPlay}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+        }}
+        className={cn('relative block size-full cursor-pointer text-left select-none', className)}
+        aria-label={`Play ${title || 'music'}`}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  if (compact) {
+    return (
+      <div
+        role="button"
+        tabIndex={editing ? -1 : 0}
+        onClick={triggerPlay}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+        }}
+        className="tessy-row-inner sf-music-row cursor-pointer select-none"
+        aria-label={`Play ${title || 'music'}`}
+      >
+        <span className="sf-cover">
+          {thumb ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={thumb} alt="" loading="lazy" style={crop} />
+          ) : (
+            <Music2 className="size-5" />
+          )}
+        </span>
+        <span className="sf-row-text">
+          <span className="sf-title">{title || 'Listen on Spotify'}</span>
+          <span className="sf-sub">{artist || 'Spotify'}</span>
+        </span>
+        <span className="sf-play" aria-hidden>
+          <Play className="size-3.5 fill-current" />
+        </span>
+      </div>
+    );
+  }
+
+  if (size === 's') {
+    return (
+      <div
+        role="button"
+        tabIndex={editing ? -1 : 0}
+        onClick={triggerPlay}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+        }}
+        className="sf-music sf-music-s cursor-pointer select-none size-full"
+        aria-label={`Play ${title || 'music'}`}
+      >
+        <span className="sf-cover">
+          {thumb ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={thumb} alt="" loading="lazy" style={crop} />
+          ) : (
+            <Music2 className="size-7" />
+          )}
+        </span>
+        <span className="sf-play">
+          <Play className="size-3.5 fill-current" />
+        </span>
+        {url && (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="sf-go"
+            title="Open in Spotify"
+            aria-label="Open in Spotify"
+          >
+            <ArrowUpRight className="size-[15px]" />
+          </a>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      role="button"
+      tabIndex={editing ? -1 : 0}
+      onClick={triggerPlay}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+      }}
+      className="sf-music cursor-pointer select-none size-full"
+      aria-label={`Play ${title || 'music'}`}
+    >
+      {thumb && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={thumb} alt="" aria-hidden className="sf-music-glow" loading="lazy" />
+      )}
+      <span className="sf-cover">
+        {thumb ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={thumb} alt="" loading="lazy" style={crop} />
+        ) : (
+          <Music2 className="size-8" />
+        )}
+      </span>
+      <div className="sf-music-body">
+        <span className="sf-music-kind">
+          <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor" aria-hidden>
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+          </svg>
+          Now playing
+        </span>
+        <p className="sf-title">{title || 'Listen on Spotify'}</p>
+        <p className="sf-sub">{artist || 'Spotify'}</p>
+        <span className="sf-eq" aria-hidden>
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
+      </div>
+      <span className="sf-play" aria-hidden>
+        <Play className="size-[17px] fill-current" />
+      </span>
+      {url && (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="sf-go"
+          title="Open in Spotify"
+          aria-label="Open in Spotify"
+        >
+          <ArrowUpRight className="size-[15px]" />
+        </a>
+      )}
+    </div>
   );
 }
 

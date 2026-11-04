@@ -36,6 +36,18 @@ export function spotifyEmbed(url: string): string | null {
   return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}` : null;
 }
 
+export function musicEmbed(url: string): string | null {
+  const sp = spotifyEmbed(url);
+  if (sp) return `${sp}?utm_source=generator&theme=0&autoplay=1`;
+  if (/^https?:\/\/music\.apple\.com\//i.test(url)) {
+    return url.replace(/^https?:\/\/music\.apple\.com\//i, 'https://embed.music.apple.com/');
+  }
+  if (/^https?:\/\/soundcloud\.com\//i.test(url)) {
+    return `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23ff5500&auto_play=true`;
+  }
+  return null;
+}
+
 /** A short name for a site: "alice.substack.com" → "Substack", "shop.example.com" → "example.com", "example.dev" stays. */
 export function siteName(url: string) {
   const host = hostOf(url);

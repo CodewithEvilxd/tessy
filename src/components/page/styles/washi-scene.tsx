@@ -10,7 +10,7 @@ import { cropStyle } from '@/lib/crop';
 import { asset, cn } from '@/lib/utils';
 import { isDark } from '@/lib/style';
 import { cleanTitle, hostOf, siteName, youtubeId } from '@/lib/url';
-import { SafeImg, VideoPlayer, WashiBreeze } from '../islands';
+import { SafeImg, VideoPlayer, WashiBreeze, MusicPlayer } from '../islands';
 import { BrandIcon, RichText } from '../tiles';
 import { compact, tileMeta } from './meta';
 import { anatomy, Arrangements, SceneName, SceneTitle, type SceneProps } from './scene';
@@ -105,20 +105,22 @@ export function InkStamp({ tile, i = 0 }: { tile: Social; i?: number }) {
 }
 
 /** Music on a round fan (uchiwa): the cover is the fan's paper, the ribs show through; it fans itself on hover. */
-export function Uchiwa({ tile, form = 'full' }: { tile: Extract<Tile, { type: 'music' }>; form?: 'full' | 'strip' }) {
+export function Uchiwa({ tile, form = 'full', editing }: { tile: Extract<Tile, { type: 'music' }>; form?: 'full' | 'strip'; editing?: boolean }) {
   const m = tileMeta(tile);
   return (
-    <div className={cn('wss-music', `wss-music-${form}`)}>
-      <span className="wss-uchiwa" aria-hidden>
-        <span className="wss-uchiwa-face">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="wss-uchiwa-blank" />}<i className="wss-ribs" /></span>
-        <span className="wss-uchiwa-handle" />
-      </span>
-      <span className="wss-music-text">
-        <b className="wss-title">{m.title}</b>
-        <span className="wss-site">{m.sub}</span>
-        <span className="wss-play" aria-hidden><Play /></span>
-      </span>
-    </div>
+    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+      <div className={cn('wss-music', `wss-music-${form}`)}>
+        <span className="wss-uchiwa" aria-hidden>
+          <span className="wss-uchiwa-face">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="wss-uchiwa-blank" />}<i className="wss-ribs" /></span>
+          <span className="wss-uchiwa-handle" />
+        </span>
+        <span className="wss-music-text">
+          <b className="wss-title">{m.title}</b>
+          <span className="wss-site">{m.sub}</span>
+          <span className="wss-play" aria-hidden><Play /></span>
+        </span>
+      </div>
+    </MusicPlayer>
   );
 }
 
@@ -135,7 +137,7 @@ export function Screen({ tile, editing }: { tile: Extract<Tile, { type: 'video' 
 }
 
 export function MediaPiece({ tile, editing, form = 'full' }: { tile: Media; editing?: boolean; form?: 'full' | 'strip' }) {
-  return tile.type === 'music' ? <Uchiwa tile={tile} form={form} /> : <Screen tile={tile} editing={editing} />;
+  return tile.type === 'music' ? <Uchiwa tile={tile} form={form} editing={editing} /> : <Screen tile={tile} editing={editing} />;
 }
 
 /** A photo as a print mounted on a paper mat, with its caption written under it. */
@@ -435,8 +437,8 @@ export function WashiCanvasTile({ tile, editing }: { tile: Tile; index: number; 
   );
   else if (tile.type === 'music') node = (
     <>
-      <span className="wss-cv-tall"><Uchiwa tile={tile} /></span>
-      <span className="wss-cv-wide"><Uchiwa tile={tile} form="strip" /></span>
+      <span className="wss-cv-tall"><Uchiwa tile={tile} editing={editing} /></span>
+      <span className="wss-cv-wide"><Uchiwa tile={tile} form="strip" editing={editing} /></span>
     </>
   );
   else if (tile.type === 'video') node = <Screen tile={tile} editing={editing} />;

@@ -4,7 +4,8 @@ import type { Tile, Size } from '@/lib/schema';
 import { PLATFORMS } from '@/lib/platforms';
 import { hostOf, youtubeId } from '@/lib/url';
 import { asset, cn } from '@/lib/utils';
-import { Favicon, VideoPlayer } from './islands';
+import { cropStyle } from '@/lib/crop';
+import { Favicon, VideoPlayer, MusicPlayer } from './islands';
 import { BrandIcon, RichText } from './tiles';
 
 type Props<T extends Tile['type']> = { tile: Extract<Tile, { type: T }>; editing?: boolean };
@@ -124,20 +125,22 @@ function Ticket({ tile, editing }: Props<'video'>) {
   );
 }
 
-function Vinyl({ tile }: Props<'music'>) {
+function Vinyl({ tile, editing }: Props<'music'>) {
   const spotify = PLATFORMS.spotify.icon as { path: string };
   return (
-    <div className={cn('dk-vinyl', `dk-vinyl-${tile.size}`)} style={{ '--paper': paper(tile, 'rose') } as React.CSSProperties}>
-      <div className="dk-record" aria-hidden />
-      <div className="dk-sleeve">{tile.image ? <Img src={tile.image} /> : <span className="dk-sleeve-blank"><BrandIcon path={spotify.path} size={34} /></span>}</div>
-      {tile.size !== 's' && (
-        <div className="dk-vinyl-info">
-          <span className="dk-mono">On repeat</span>
-          <b className="dk-serif">{tile.title || 'Listen on Spotify'}</b>
-          {tile.artist && <span>{tile.artist}</span>}
-        </div>
-      )}
-    </div>
+    <MusicPlayer url={tile.url} title={tile.title} artist={tile.artist} thumb={tile.image ? asset(tile.image) : undefined} crop={cropStyle(tile)} size={tile.size} editing={editing}>
+      <div className={cn('dk-vinyl', `dk-vinyl-${tile.size}`)} style={{ '--paper': paper(tile, 'rose') } as React.CSSProperties}>
+        <div className="dk-record" aria-hidden />
+        <div className="dk-sleeve">{tile.image ? <Img src={tile.image} /> : <span className="dk-sleeve-blank"><BrandIcon path={spotify.path} size={34} /></span>}</div>
+        {tile.size !== 's' && (
+          <div className="dk-vinyl-info">
+            <span className="dk-mono">On repeat</span>
+            <b className="dk-serif">{tile.title || 'Listen on Spotify'}</b>
+            {tile.artist && <span>{tile.artist}</span>}
+          </div>
+        )}
+      </div>
+    </MusicPlayer>
   );
 }
 
@@ -176,7 +179,7 @@ export function DeskTile({ tile, editing }: { tile: Tile; editing?: boolean }) {
       return <Tag tile={tile} />;
     }
     case 'video': return <Ticket tile={tile} editing={editing} />;
-    case 'music': return <Vinyl tile={tile} />;
+    case 'music': return <Vinyl tile={tile} editing={editing} />;
     case 'github': return <IndexCard tile={tile} />;
     case 'social': return <Sticker tile={tile} />;
     case 'heading': return null;

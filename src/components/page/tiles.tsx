@@ -1,10 +1,10 @@
 // Shared by the server-rendered page and the client studio. Interactive bits live in ./islands.
 // These views draw the Minimal style: plain cards on paper. The other styles draw their own tiles in ./styles.
 import { ArrowUpRight, Star, Mail, Play, Music2 } from 'lucide-react';
-import { Favicon, VideoPlayer } from './islands';
+import { Favicon, VideoPlayer, MusicPlayer } from './islands';
 import type { Tile } from '@/lib/schema';
 import { PLATFORMS, profileUrl } from '@/lib/platforms';
-import { hostOf, safeHref, youtubeId } from '@/lib/url';
+import { hostOf, safeHref, youtubeId, musicEmbed } from '@/lib/url';
 import { asset, cn } from '@/lib/utils';
 import { cropStyle } from '@/lib/crop';
 import { isColourful } from '@/lib/style';
@@ -123,36 +123,18 @@ export function VideoTileView({ tile, editing }: Props<'video'>) {
   return <div className="sf-photo"><VideoPlayer id={id} title={tile.title} editing={editing} thumb={tile.image && asset(tile.image)} crop={cropStyle(tile)} /></div>;
 }
 
-/** A native-looking music card: cover art, title, artist and a play button that opens the track. */
-export function MusicTileView({ tile }: Props<'music'>) {
-  const sp = PLATFORMS.spotify.icon as { path: string };
-  const cover = tile.image ? asset(tile.image) : undefined;
-  const title = tile.title || 'Listen on Spotify';
-  const artist = tile.artist || 'Spotify';
-  if (tile.size === 's') {
-    return (
-      <div className="sf-music sf-music-s">
-        <span className="sf-cover">{cover ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={cover} alt="" loading="lazy" style={cropStyle(tile)} /> : <Music2 className="size-7" />}</span>
-        <span className="sf-play"><Play className="size-3.5 fill-current" /></span>
-        <Corner />
-      </div>
-    );
-  }
+/** A native-looking music card: cover art, title, artist and inline playback on click. */
+export function MusicTileView({ tile, editing }: Props<'music'>) {
   return (
-    <div className="sf-music">
-      {cover && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={cover} alt="" aria-hidden className="sf-music-glow" loading="lazy" />
-      )}
-      <span className="sf-cover">{cover ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={cover} alt="" loading="lazy" style={cropStyle(tile)} /> : <Music2 className="size-8" />}</span>
-      <div className="sf-music-body">
-        <span className="sf-music-kind"><BrandIcon path={sp.path} size={13} />Now playing</span>
-        <p className="sf-title">{title}</p>
-        <p className="sf-sub">{artist}</p>
-        <span className="sf-eq" aria-hidden><i /><i /><i /><i /><i /></span>
-      </div>
-      <span className="sf-play" aria-hidden><Play className="size-[17px] fill-current" /></span>
-    </div>
+    <MusicPlayer
+      url={tile.url}
+      title={tile.title}
+      artist={tile.artist}
+      thumb={tile.image ? asset(tile.image) : undefined}
+      crop={cropStyle(tile)}
+      size={tile.size}
+      editing={editing}
+    />
   );
 }
 
@@ -189,7 +171,7 @@ export function tileHref(tile: Tile, _desk = false): string | null {
     case 'social': return safeHref(profileUrl(tile.platform, tile.handle, tile.url));
     case 'github': return `https://github.com/${tile.repo}`;
     case 'image': return safeHref(tile.url);
-    case 'music': return safeHref(tile.url);
+    case 'music': return musicEmbed(tile.url) ? null : safeHref(tile.url);
     default: return null;
   }
 }
@@ -248,11 +230,15 @@ export function ListItem({ tile }: { tile: Tile }) {
     case 'music': {
       const cover = tile.image ? asset(tile.image) : undefined;
       return (
-        <div className="tessy-row-inner sf-music-row">
-          <span className="sf-cover">{cover ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={cover} alt="" loading="lazy" style={cropStyle(tile)} /> : <Music2 className="size-5" />}</span>
-          <RowText title={tile.title || 'Listen on Spotify'} sub={tile.artist || 'Spotify'} />
-          <span className="sf-play" aria-hidden><Play className="size-3.5 fill-current" /></span>
-        </div>
+        <MusicPlayer
+          url={tile.url}
+          title={tile.title}
+          artist={tile.artist}
+          thumb={cover}
+          crop={cropStyle(tile)}
+          size={tile.size}
+          compact
+        />
       );
     }
     case 'text':

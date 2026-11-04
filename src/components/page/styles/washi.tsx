@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 import type { Page, Tile } from '@/lib/schema';
 import { asset, cn } from '@/lib/utils';
 import { youtubeId } from '@/lib/url';
-import { VideoPlayer } from '../islands';
+import { VideoPlayer, MusicPlayer } from '../islands';
 import { RichText } from '../tiles';
 import { tileMeta, compact } from './meta';
 import type { HeaderSlots } from './types';
@@ -64,7 +64,7 @@ export function WashiTile({ tile, index, editing }: { tile: Tile; index: number;
   void index;
   const vid = tile.type === 'video' ? youtubeId(tile.url) : null;
   const pic = tile.type === 'image' || tile.type === 'video' || ((tile.type === 'link' || tile.type === 'music') && tile.size !== 's' && m.image);
-  return (
+  const content = (
     <div className={cn('ws-frame', `ws-t-${tile.type}`)}>
       {tile.type === 'text' && <p className="ws-note"><RichText text={tile.text} /></p>}
       {pic && (
@@ -85,6 +85,10 @@ export function WashiTile({ tile, index, editing }: { tile: Tile; index: number;
       {m.href && tile.type !== 'video' && <ArrowUpRight className="ws-go" aria-hidden />}
     </div>
   );
+  if (tile.type === 'music') {
+    return <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} editing={editing}>{content}</MusicPlayer>;
+  }
+  return content;
 }
 
 export function WashiRow({ tile }: { tile: Tile; index: number }) {

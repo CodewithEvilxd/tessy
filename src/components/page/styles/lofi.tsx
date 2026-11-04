@@ -6,7 +6,7 @@ import { PLATFORMS } from '@/lib/platforms';
 import { avatarCrop } from '@/lib/crop';
 import { asset, cn } from '@/lib/utils';
 import { hostOf, youtubeId } from '@/lib/url';
-import { LiveClock, VideoPlayer } from '../islands';
+import { LiveClock, VideoPlayer, MusicPlayer } from '../islands';
 import { BrandIcon, RichText } from '../tiles';
 import { tileMeta, compact } from './meta';
 import type { HeaderSlots } from './types';
@@ -111,15 +111,17 @@ export function LofiTile({ tile, index, editing }: { tile: Tile; index: number; 
         </>}
 
         {tile.type === 'music' && (
-          <div className="lf-player">
-            {m.image ? <Halftone src={m.image} className="lf-cover" /> : <span className="lf-cover" />}
-            <div className="lf-track">
-              <b>{m.title}</b>
-              <span>{m.sub}</span>
-              <span className="lf-progress" aria-hidden><i /></span>
-              <span className="lf-controls" aria-hidden><SkipBack /><span className="lf-play"><Play /></span><SkipForward /></span>
+          <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} editing={editing}>
+            <div className="lf-player">
+              {m.image ? <Halftone src={m.image} className="lf-cover" /> : <span className="lf-cover" />}
+              <div className="lf-track">
+                <b>{m.title}</b>
+                <span>{m.sub}</span>
+                <span className="lf-progress" aria-hidden><i /></span>
+                <span className="lf-controls" aria-hidden><SkipBack /><span className="lf-play"><Play /></span><SkipForward /></span>
+              </div>
             </div>
-          </div>
+          </MusicPlayer>
         )}
 
         {tile.type === 'github' && (

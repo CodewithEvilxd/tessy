@@ -10,7 +10,7 @@ import { PLATFORMS } from '@/lib/platforms';
 import { cropStyle } from '@/lib/crop';
 import { asset, cn } from '@/lib/utils';
 import { cleanTitle, hostOf, siteName, youtubeId } from '@/lib/url';
-import { Favicon, SafeImg, VideoPlayer } from '../islands';
+import { Favicon, SafeImg, VideoPlayer, MusicPlayer } from '../islands';
 import { BrandIcon, RichText } from '../tiles';
 import { compact, tileMeta } from './meta';
 import { anatomy, Arrangements, SceneName, SceneTitle, type PieceFn, type SceneProps } from './scene';
@@ -62,17 +62,19 @@ function LinkCard({ tile, big }: { tile: LinkTile; big?: boolean }) {
 }
 
 /** Music: the cover, the track, and a quiet player line. */
-function MusicCard({ tile }: { tile: Of<'music'> }) {
+function MusicCard({ tile, editing }: { tile: Of<'music'>; editing?: boolean }) {
   const m = tileMeta(tile);
   return (
-    <div className="ptc ptc-music">
-      <span className="ptc-cover">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <Music2 aria-hidden />}</span>
-      <div className="ptc-words">
-        <b className="ptc-title">{m.title}</b>
-        <span className="ptc-sub">{m.sub}</span>
-        <span className="ptc-player" aria-hidden><span className="ptc-play"><Play /></span><span className="ptc-line"><i /></span></span>
+    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+      <div className="ptc ptc-music">
+        <span className="ptc-cover">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <Music2 aria-hidden />}</span>
+        <div className="ptc-words">
+          <b className="ptc-title">{m.title}</b>
+          <span className="ptc-sub">{m.sub}</span>
+          <span className="ptc-player" aria-hidden><span className="ptc-play"><Play /></span><span className="ptc-line"><i /></span></span>
+        </div>
       </div>
-    </div>
+    </MusicPlayer>
   );
 }
 
@@ -89,7 +91,7 @@ function VideoCard({ tile, editing }: { tile: Of<'video'>; editing?: boolean }) 
 }
 
 function MediaCard({ tile, editing }: { tile: MediaTile; editing?: boolean }) {
-  return tile.type === 'music' ? <MusicCard tile={tile} /> : <VideoCard tile={tile} editing={editing} />;
+  return tile.type === 'music' ? <MusicCard tile={tile} editing={editing} /> : <VideoCard tile={tile} editing={editing} />;
 }
 
 /** A photo in a simple cream mat, with a small handwritten caption. */
@@ -307,7 +309,7 @@ export function PaintedCanvasHeader({ page, slots }: { page: Page; slots: Header
 export function PaintedCanvasTile({ tile, editing }: { tile: Tile; index: number; editing?: boolean }) {
   let node: React.ReactNode = null;
   if (tile.type === 'link' || tile.type === 'github') node = <LinkCard tile={tile} big={tile.type === 'link' && !!tile.image} />;
-  else if (tile.type === 'music') node = <MusicCard tile={tile} />;
+  else if (tile.type === 'music') node = <MusicCard tile={tile} editing={editing} />;
   else if (tile.type === 'video') node = <VideoCard tile={tile} editing={editing} />;
   else if (tile.type === 'image') node = <PhotoCard tile={tile} />;
   else if (tile.type === 'text') node = tile.look === 'stamp' ? <span className="ptv-seal"><Seal tile={tile} /></span> : <NoteCard tile={tile} />;

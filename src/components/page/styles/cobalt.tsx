@@ -7,7 +7,7 @@ import type { Page, Tile } from '@/lib/schema';
 import { THEMES } from '@/lib/themes';
 import { asset, cn } from '@/lib/utils';
 import { hostOf, youtubeId } from '@/lib/url';
-import { VideoPlayer, PhotoExposure } from '../islands';
+import { VideoPlayer, PhotoExposure, MusicPlayer } from '../islands';
 import { cropStyle } from '@/lib/crop';
 import { RichText } from '../tiles';
 import { tileMeta, compact, seeded } from './meta';
@@ -271,14 +271,16 @@ export function CobaltTile({ tile, index, editing }: { tile: Tile; index: number
   }
 
   if (tile.type === 'music') return (
-    <div className="cb-plate cb-music">
-      <span className="cb-record" aria-hidden>{m.image && <Print src={m.image} crop={cropStyle(tile)} />}</span>
-      <div className="cb-text">
-        <No index={index} />
-        <b className="cb-title">{m.title}</b>
-        <span className="cb-sub">{m.sub}</span>
+    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+      <div className="cb-plate cb-music">
+        <span className="cb-record" aria-hidden>{m.image && <Print src={m.image} crop={cropStyle(tile)} />}</span>
+        <div className="cb-text">
+          <No index={index} />
+          <b className="cb-title">{m.title}</b>
+          <span className="cb-sub">{m.sub}</span>
+        </div>
       </div>
-    </div>
+    </MusicPlayer>
   );
 
   if (tile.type === 'github') return (

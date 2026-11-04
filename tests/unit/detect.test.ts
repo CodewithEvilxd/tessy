@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { tileFromInput, youtubeId, spotifyEmbed, isImageRef } from '@/lib/detect';
+import { tileFromInput, youtubeId, spotifyEmbed, musicEmbed, isImageRef } from '@/lib/detect';
 
 const t = (s: string) => tileFromInput(s);
 describe('pasting a link picks the right tile', () => {
@@ -32,6 +32,8 @@ describe('pasting a link picks the right tile', () => {
   it('helpers', () => {
     expect(youtubeId('https://youtube.com/shorts/abcDEF123')).toBe('abcDEF123');
     expect(spotifyEmbed('https://open.spotify.com/intl-de/album/XyZ')).toBe('https://open.spotify.com/embed/album/XyZ');
+    expect(spotifyEmbed('https://open.spotify.com/track/3QaPy1KgI7nu9FJEQUgn6h?si=d97caa8166fd4ce8')).toBe('https://open.spotify.com/embed/track/3QaPy1KgI7nu9FJEQUgn6h');
+    expect(musicEmbed('https://open.spotify.com/track/3QaPy1KgI7nu9FJEQUgn6h?si=d97caa8166fd4ce8')).toBe('https://open.spotify.com/embed/track/3QaPy1KgI7nu9FJEQUgn6h?utm_source=generator&theme=0&autoplay=1');
   });
 });
 

@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Inline music player for Spotify, Apple Music, and SoundCloud so tracks play directly on the page without external redirects.
+
 ### Changed
 
 - Every look follows the layout again. Grid shows the look's own arrangement, List shows its phone arrangement on every screen, and Canvas places the look's own pieces freely.

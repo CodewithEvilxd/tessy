@@ -190,6 +190,7 @@ function ariaLabel(tile: Tile) {
   if (tile.type === 'social') return `${PLATFORMS[tile.platform].label}: ${tile.handle}`;
   if (tile.type === 'link') return tile.title || tile.url;
   if (tile.type === 'github') return `GitHub repository ${tile.repo}`;
+  if (tile.type === 'music') return `Play ${tile.title || 'music'}`;
   return undefined;
 }
 

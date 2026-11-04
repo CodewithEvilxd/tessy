@@ -8,7 +8,7 @@ import { PLATFORMS } from '@/lib/platforms';
 import { cropStyle } from '@/lib/crop';
 import { asset, cn } from '@/lib/utils';
 import { cleanTitle, hostOf, pathOf, siteName, youtubeId } from '@/lib/url';
-import { Favicon, LiveClock, VideoPlayer } from '../islands';
+import { Favicon, LiveClock, VideoPlayer, MusicPlayer } from '../islands';
 import { BrandIcon, RichText } from '../tiles';
 import { tileMeta, compact } from './meta';
 import { anatomy, Arrangements, SceneName, SceneTitle, type SceneProps } from './scene';
@@ -113,16 +113,18 @@ function Player({ tile, editing, wide }: { tile: Extract<Tile, { type: 'music' |
   }
   return (
     <Win title="Music" className={cn('lfs-music', wide && 'lfs-music-wide')}>
-      <div className="lfs-deck" aria-hidden>
-        <span className="lfs-vinyl"><i /></span>
-        <span className="lfs-sleeve">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="lfs-sleeve-blank"><Music2 /></span>}</span>
-      </div>
-      <div className="lfs-track">
-        <b>{m.title}</b>
-        <span className="lfs-artist"><span className="lfs-eq" aria-hidden><i /><i /><i /><i /></span><span>{m.sub}</span></span>
-        <span className="lfs-progress" aria-hidden><i /></span>
-        <span className="lfs-controls" aria-hidden><SkipBack /><span className="lfs-play"><Play className="lfs-p1" /><Pause className="lfs-p2" /></span><SkipForward /></span>
-      </div>
+      <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
+        <div className="lfs-deck" aria-hidden>
+          <span className="lfs-vinyl"><i /></span>
+          <span className="lfs-sleeve">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <span className="lfs-sleeve-blank"><Music2 /></span>}</span>
+        </div>
+        <div className="lfs-track">
+          <b>{m.title}</b>
+          <span className="lfs-artist"><span className="lfs-eq" aria-hidden><i /><i /><i /><i /></span><span>{m.sub}</span></span>
+          <span className="lfs-progress" aria-hidden><i /></span>
+          <span className="lfs-controls" aria-hidden><SkipBack /><span className="lfs-play"><Play className="lfs-p1" /><Pause className="lfs-p2" /></span><SkipForward /></span>
+        </div>
+      </MusicPlayer>
     </Win>
   );
 }
