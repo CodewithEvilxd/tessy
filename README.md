@@ -1,203 +1,52 @@
-<a href="https://tessy.page">
-  <img src=".github/assets/hero.webp" alt="tessy: a link in bio that looks like you made it by hand. A girl works at her desk on a floating island in a painted sky, with a kite flying beside her." width="100%">
-</a>
-
-<h3 align="center">Tessy is a link-in-bio page that looks hand-made.</h3>
-
 <p align="center">
-  Pick a look, add your links, publish. Edit it yourself, or let your AI do it.<br>
-  Free and open source. Use it at <a href="https://tessy.page">tessy.page</a> or run it yourself.
+  <a href="https://tessy.page">
+    <img src=".github/assets/hero.webp" alt="Tessy: A link-in-bio page that looks hand-made" width="100%">
+  </a>
 </p>
 
+<h1 align="center">Tessy</h1>
+
 <p align="center">
-  <a href="https://github.com/codewithevilxd/tessy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/codewithevilxd/tessy/ci.yml?branch=main&label=CI&labelColor=2b2621" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-6b9e78?labelColor=2b2621" alt="MIT licence"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/github/package-json/v/codewithevilxd/tessy?label=version&color=e39b6f&labelColor=2b2621" alt="Version"></a>
-  <a href="https://registry.modelcontextprotocol.io/v0.1/servers/io.github.codewithevilxd%2Ftessy/versions/latest"><img src="https://img.shields.io/badge/MCP_registry-io.github.codewithevilxd%2Ftessy-8a63d2?labelColor=2b2621" alt="Official MCP registry"></a>
-  <a href="https://docs.tessy.page"><img src="https://img.shields.io/badge/docs-docs.tessy.page-4d7cff?labelColor=2b2621" alt="Docs"></a>
-  <a href="https://github.com/codewithevilxd/tessy/stargazers"><img src="https://img.shields.io/github/stars/codewithevilxd/tessy?style=flat&color=e4572e&labelColor=2b2621" alt="GitHub stars"></a>
+  <b>A link-in-bio page crafted by hand. Powered by AI.</b><br>
+  Six dynamic rendering styles · Bento, list & canvas layouts · Hosted MCP server · Local-first JSON architecture.
 </p>
 
 <p align="center">
-  <a href="https://tessy.page"><b>Website</b></a> ·
-  <a href="https://docs.tessy.page"><b>Docs</b></a> ·
-  <a href="#connect-your-ai"><b>Connect your AI</b></a> ·
-  <a href="#run-it-yourself"><b>Self-host</b></a> ·
-  <a href="CONTRIBUTING.md"><b>Contributing</b></a>
+  <a href="https://github.com/codewithevilxd/tessy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/codewithevilxd/tessy/ci.yml?branch=main&label=CI&labelColor=1a1917&color=6b9e78" alt="CI Status"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/github/package-json/v/codewithevilxd/tessy?label=version&labelColor=1a1917&color=e39b6f" alt="Version"></a>
+  <a href="https://registry.modelcontextprotocol.io/v0.1/servers/io.github.codewithevilxd%2Ftessy/versions/latest"><img src="https://img.shields.io/badge/MCP_registry-io.github.codewithevilxd%2Ftessy-8a63d2?labelColor=1a1917" alt="MCP Registry"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D20.9-4d7cff?labelColor=1a1917" alt="Node Engine"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-6b9e78?labelColor=1a1917" alt="MIT License"></a>
+  <a href="https://docs.tessy.page"><img src="https://img.shields.io/badge/docs-docs.tessy.page-4d7cff?labelColor=1a1917" alt="Documentation"></a>
+  <a href="https://github.com/codewithevilxd/tessy/stargazers"><img src="https://img.shields.io/github/stars/codewithevilxd/tessy?style=flat&labelColor=1a1917&color=e4572e" alt="GitHub Stars"></a>
 </p>
 
 <p align="center">
-  <a href="https://cursor.com/en/install-mcp?name=tessy&amp;config=eyJ1cmwiOiJodHRwczovL3Rlc3N5LnBhZ2UvYXBpL21jcCJ9"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/cursor-dark.png"><img src=".github/assets/badges/cursor.png" alt="Add to Cursor" height="30"></picture></a>
-  <a href="https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522tessy%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Ftessy.page%252Fapi%252Fmcp%2522%257D"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/vscode-dark.png"><img src=".github/assets/badges/vscode.png" alt="Install in VS Code" height="30"></picture></a>
-  <a href="https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522tessy%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Ftessy.page%252Fapi%252Fmcp%2522%257D"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/vscode-insiders-dark.png"><img src=".github/assets/badges/vscode-insiders.png" alt="Install in VS Code Insiders" height="30"></picture></a>
-  <a href="https://claude.ai/customize/connectors?modal=add-custom-connector&amp;connectorName=Tessy&amp;connectorUrl=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/claude-dark.png"><img src=".github/assets/badges/claude.png" alt="Add to Claude" height="30"></picture></a>
-  <a href="https://goose-docs.ai/extension?type=streamable_http&amp;url=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp&amp;id=tessy&amp;name=Tessy&amp;description=Make%20and%20edit%20your%20Tessy%20page"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/goose-dark.png"><img src=".github/assets/badges/goose.png" alt="Install in Goose" height="30"></picture></a>
-  <a href="https://docs.tessy.page/agents/connect#chatgpt"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/chatgpt-dark.png"><img src=".github/assets/badges/chatgpt.png" alt="Set up ChatGPT" height="30"></picture></a>
+  <a href="https://tessy.page"><strong>Live App</strong></a> ·
+  <a href="https://docs.tessy.page"><strong>Documentation</strong></a> ·
+  <a href="#quickstart"><strong>Quickstart</strong></a> ·
+  <a href="#connect-your-ai-mcp"><strong>AI & MCP</strong></a> ·
+  <a href="#visual-styles"><strong>Visual Styles</strong></a> ·
+  <a href="#architecture"><strong>Architecture</strong></a> ·
+  <a href="#self-hosting"><strong>Self-Host</strong></a> ·
+  <a href="#cli-reference"><strong>CLI</strong></a>
 </p>
-
-<p align="center"><img src=".github/assets/divider-kite.png" alt="" width="420"></p>
-
-## What is Tessy
-
-Tessy is a link-in-bio page that looks hand-made. You pick a look, add your links, and publish.
-Edit it yourself in a calm studio, or ask your AI to do it for you. Your page is one small JSON file you can take anywhere.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/how-dark.webp">
-  <img src=".github/assets/how.webp" alt="Three steps: 1, pick a look. 2, add your links, and Tessy turns each one into the right tile. 3, publish to tessy.page/you, or ask your AI to do all three." width="100%">
-</picture>
-
-<p align="center"><img src=".github/assets/divider-petals.png" alt="" width="420"></p>
-
-## The looks
-
-The same links, drawn as a wooden desk with polaroids, a Japanese print, a desktop left open, a watercolour, a two-ink print or a netrunner's screen.
-Each look has four palettes, and you can switch any time.
 
 <p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/looks-tour-dark.webp">
-  <img src=".github/assets/looks-tour.webp" alt="A short tour of the looks on a desktop: Desk, Washi, Lofi, Painted, Cobalt and Night." width="820">
-</picture>
+  <a href="https://cursor.com/en/install-mcp?name=tessy&amp;config=eyJ1cmwiOiJodHRwczovL3Rlc3N5LnBhZ2UvYXBpL21jcCJ9"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/cursor-dark.png"><img src=".github/assets/badges/cursor.png" alt="Add to Cursor" height="28"></picture></a>
+  <a href="https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522tessy%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Ftessy.page%252Fapi%252Fmcp%2522%257D"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/vscode-dark.png"><img src=".github/assets/badges/vscode.png" alt="Install in VS Code" height="28"></picture></a>
+  <a href="https://claude.ai/customize/connectors?modal=add-custom-connector&amp;connectorName=Tessy&amp;connectorUrl=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/claude-dark.png"><img src=".github/assets/badges/claude.png" alt="Add to Claude" height="28"></picture></a>
+  <a href="https://goose-docs.ai/extension?type=streamable_http&amp;url=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp&amp;id=tessy&amp;name=Tessy&amp;description=Make%20and%20edit%20your%20Tessy%20page"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/goose-dark.png"><img src=".github/assets/badges/goose.png" alt="Install in Goose" height="28"></picture></a>
+  <a href="https://docs.tessy.page/agents/connect#chatgpt"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/chatgpt-dark.png"><img src=".github/assets/badges/chatgpt.png" alt="Set up ChatGPT" height="28"></picture></a>
 </p>
 
-<table>
-  <tr>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-desk-dark.webp"><img src=".github/assets/phone-desk.webp" alt="Desk: a wooden desk with polaroids, a record and letters." width="100%"></picture></td>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-washi-dark.webp"><img src=".github/assets/phone-washi.webp" alt="Washi: a Japanese print with rice paper, ink and a red seal." width="100%"></picture></td>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-lofi-dark.webp"><img src=".github/assets/phone-lofi.webp" alt="Lofi: a desktop left open where every tile is a window." width="100%"></picture></td>
-  </tr>
-  <tr>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-painted-dark.webp"><img src=".github/assets/phone-painted.webp" alt="Painted: watercolour paper, letters and wax seals." width="100%"></picture></td>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-cobalt-dark.webp"><img src=".github/assets/phone-cobalt.webp" alt="Cobalt: a vintage print in two inks, under a crescent moon." width="100%"></picture></td>
-    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-night-dark.webp"><img src=".github/assets/phone-night.webp" alt="Night: a netrunner's screen with one signal colour." width="100%"></picture></td>
-  </tr>
-</table>
+<p align="center"><img src=".github/assets/divider-kite.png" alt="" width="380"></p>
 
-On tessy.page, Painted, Desk and Lofi are free, and the others come with Pro. Self-hosted, every look is unlocked.
-See them live in the [looks gallery](https://docs.tessy.page/looks).
+## Overview
 
-<details>
-<summary><b>See each look on a desktop</b></summary>
-<br>
+Tessy reimagines the link-in-bio page as an interactive digital artpiece. Instead of sterile rows of corporate buttons, links transform into tactile objects: polaroid photographs on a wooden desk, woodblock prints on rice paper, retro window panes beneath procedural WebGL clouds, or cybernetic HUD panels with real-time commit streams.
 
-<table>
-  <tr>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-desk-dark.webp"><img src=".github/assets/look-desk.webp" alt="Desk: a wooden desk with polaroids, a record and letters." width="100%"></picture></td>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-washi-dark.webp"><img src=".github/assets/look-washi.webp" alt="Washi: a Japanese print with rice paper, ink and a red seal." width="100%"></picture></td>
-  </tr>
-  <tr>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-lofi-dark.webp"><img src=".github/assets/look-lofi.webp" alt="Lofi: a desktop left open where every tile is a window." width="100%"></picture></td>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-painted-dark.webp"><img src=".github/assets/look-painted.webp" alt="Painted: watercolour paper, letters and wax seals." width="100%"></picture></td>
-  </tr>
-  <tr>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-cobalt-dark.webp"><img src=".github/assets/look-cobalt.webp" alt="Cobalt: a vintage print in two inks, under a crescent moon." width="100%"></picture></td>
-    <td width="50%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/look-night-dark.webp"><img src=".github/assets/look-night.webp" alt="Night: a netrunner's screen with one signal colour." width="100%"></picture></td>
-  </tr>
-</table>
-
-</details>
-
-<details>
-<summary><b>Tiles, palettes and layouts</b></summary>
-<br>
-
-| Tile | What it shows |
-|---|---|
-| Link | Favicon, title and an optional preview image |
-| Social | 29 platforms (X, Instagram, GitHub, LinkedIn, YouTube, TikTok, Bluesky, Threads, Substack…) and email |
-| Note | Short text with **bold**, *italic* and links |
-| Section | A heading that starts a new group of tiles |
-| Image | Your photo or artwork, with an optional caption and link |
-| Video | YouTube, loads only when played |
-| Music | Spotify embed |
-| GitHub | A repo with live stars and language, refreshed daily |
-
-Three layouts: `bento` (a grid), `list` (one column) and `canvas` (place tiles freely). Photos can be printed `natural`, `mono`, `dither` or `ascii`.
-On top of each look's palettes: Cream, Lavender, Mint, Sky, Peach, Paper, Blush, Sage, Midnight, Mocha, Dusk and Ocean, any accent colour, and font pairs.
-
-</details>
-
-<p align="center"><img src=".github/assets/divider-bouquet.png" alt="" width="420"></p>
-
-## Make your page
-
-**Claim your name at [tessy.page](https://tessy.page).** Paste a link anywhere to add a tile, drag to arrange, and press **Publish**. Your page is live in a minute.
-
-**Just looking?** Open [tessy.page/new](https://tessy.page/new), paste a few links and see your page before you sign up.
-
-<details>
-<summary><b>Free, Pro and self-hosted</b></summary>
-<br>
-
-| | tessy.page Free | tessy.page Pro | Self-hosted |
-|---|---|---|---|
-| Tiles, editor, API, MCP, CLI | All | All | All |
-| Looks | Painted, Desk, Lofi | All | All |
-| Your own domain | No | Yes, HTTPS set up for you | Yes, point it at your server |
-| Analytics | Basic | 12 months + CSV | 12 months + CSV |
-| "Made with Tessy" footer | Shown | Hide it | Hide it |
-| Setup and upkeep | None | None | You |
-
-Pro is $5 a month or $48 a year. Your page works the same everywhere: **Settings → Download page.json** on one, **Import page.json** on the other.
-
-</details>
-
-<p align="center"><img src=".github/assets/divider-kite.png" alt="" width="420"></p>
-
-## Connect your AI
-
-Tessy has a hosted MCP server, so your AI can make and edit your page. You sign in with your Tessy account; there is no key to copy.
-Everything it does lands in your draft, and nothing goes live until you, or it, publish.
-
-```text
-https://tessy.page/api/mcp
-```
-
-**One click**
-
-<p>
-  <a href="https://cursor.com/en/install-mcp?name=tessy&amp;config=eyJ1cmwiOiJodHRwczovL3Rlc3N5LnBhZ2UvYXBpL21jcCJ9"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/cursor-dark.png"><img src=".github/assets/badges/cursor.png" alt="Add to Cursor" height="38"></picture></a>
-  <a href="https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522tessy%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Ftessy.page%252Fapi%252Fmcp%2522%257D"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/vscode-dark.png"><img src=".github/assets/badges/vscode.png" alt="Install in VS Code" height="38"></picture></a>
-  <a href="https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522tessy%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Ftessy.page%252Fapi%252Fmcp%2522%257D"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/vscode-insiders-dark.png"><img src=".github/assets/badges/vscode-insiders.png" alt="Install in VS Code Insiders" height="38"></picture></a>
-  <a href="https://claude.ai/customize/connectors?modal=add-custom-connector&amp;connectorName=Tessy&amp;connectorUrl=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/claude-dark.png"><img src=".github/assets/badges/claude.png" alt="Add to Claude" height="38"></picture></a>
-  <a href="https://goose-docs.ai/extension?type=streamable_http&amp;url=https%3A%2F%2Ftessy.page%2Fapi%2Fmcp&amp;id=tessy&amp;name=Tessy&amp;description=Make%20and%20edit%20your%20Tessy%20page"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/goose-dark.png"><img src=".github/assets/badges/goose.png" alt="Install in Goose" height="38"></picture></a>
-</p>
-
-**A few steps**
-
-<p>
-  <a href="https://docs.tessy.page/agents/connect#chatgpt"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/chatgpt-dark.png"><img src=".github/assets/badges/chatgpt.png" alt="Set up ChatGPT" height="38"></picture></a>
-  <a href="https://docs.tessy.page/agents/connect#claude-code"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/claude-code-dark.png"><img src=".github/assets/badges/claude-code.png" alt="Set up Claude Code" height="38"></picture></a>
-  <a href="https://docs.tessy.page/agents/connect#cursor-vs-code-codex"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/codex-dark.png"><img src=".github/assets/badges/codex.png" alt="Set up Codex" height="38"></picture></a>
-</p>
-
-```bash
-claude mcp add --transport http tessy https://tessy.page/api/mcp   # Claude Code, then /mcp → Authenticate
-codex mcp add tessy --url https://tessy.page/api/mcp               # Codex
-```
-
-In ChatGPT, open **Plugins**, press **+**, choose **Add custom MCP server**, paste the URL and pick OAuth.
-On your own server, use `https://YOUR-TESSY/api/mcp`. Tessy is in the [official MCP registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.codewithevilxd%2Ftessy/versions/latest) as `io.github.codewithevilxd/tessy`.
-
-### No connector? Hand it a page file
-
-Any chat can write your page as one small JSON file. Paste it at [tessy.page/new](https://tessy.page/new) and it becomes a page.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/page-file-dark.webp">
-  <img src=".github/assets/page-file.webp" alt="A JSON page file on the left, with name Mira Sol, look washi and a few links. An arrow points to the same page rendered in the Washi look on a phone." width="100%">
-</picture>
-
-Or skip the file: an AI can hand you a link that opens a live preview, no sign-in needed.
-
-```text
-https://tessy.page/new?name=Mira%20Sol&look=washi&links=https://github.com/mira,hi@mira.so
-```
-
-<details>
-<summary><b>The page file, MCP tools, REST, llms.txt and the CLI</b></summary>
-<br>
+A Tessy page is governed by a single, portable, deterministic JSON document. You can build it in our visual studio, automate it with an AI assistant via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), control it from your terminal using the CLI, or export the raw JSON and host it anywhere.
 
 ```json
 {
@@ -216,107 +65,348 @@ https://tessy.page/new?name=Mira%20Sol&look=washi&links=https://github.com/mira,
 }
 ```
 
-Every field: [the page file](https://docs.tessy.page/agents/format).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/how-dark.webp">
+  <img src=".github/assets/how.webp" alt="How Tessy works: Pick a look, add links, publish or let AI do it" width="100%">
+</picture>
 
-| Tool | What it does |
-|---|---|
-| `get_page` | Your draft, public URL, and what to do next |
-| `create_page` | Claim a username and create your page (once) |
-| `import_page` | Load a whole page from a page file |
-| `add_tile` | Add one link, or many at once. Tessy picks the right tile |
-| `update_tile`, `move_tile`, `remove_tile` | Change, reorder or delete a tile |
-| `set_theme`, `set_profile` | Look, colours, fonts, name and bio |
-| `publish` | Make the draft live |
-| `list_options` | Allowed looks, palettes, fonts and sizes |
+---
 
-| Surface | Where |
-|---|---|
-| REST | `/api/v1/page` with a Bearer key from the **Agents** page. Spec: [`/openapi.json`](https://tessy.page/openapi.json), guide: [API reference](https://docs.tessy.page/api-reference/introduction) |
-| Public JSON | `/api/v1/public/<username>` for any published page |
-| `llms.txt` | [`tessy.page/llms.txt`](https://tessy.page/llms.txt) for the app, `/<username>/llms.txt` for any page |
-| Schemas | [`public/schema/page.schema.json`](public/schema/page.schema.json) and `/schema/brief.schema.json` |
-| Plugin | Claude Code and Cursor skills in [`plugin/`](plugin) |
+## Key Features
 
-```bash
-export TESSY_URL=https://tessy.page TESSY_API_KEY=tessy_...
-npm run tessy -- add https://github.com/owner/repo --size w
-npm run tessy -- theme --preset moonlit --layout list
-npm run tessy -- publish
-```
+- **6 Hand-Crafted Aesthetics**: Desk, Washi, Lofi, Painted, Cobalt, and Night. Each aesthetic features custom typography, bespoke textures, and dynamic ambient weather.
+- **3 Dynamic Layout Engines**:
+  - `bento`: Auto-packed geometric grid layout with variable tile footprints (`1x1`, `2x1`, `1x2`, `2x2`).
+  - `list`: Single-column vertical stream optimized for quick mobile navigation.
+  - `canvas`: Freeform 2D positioning coordinate space with variable rotation (`-15° to +15°`) and explicit z-indexing.
+- **Smart Link Detection & Enriched Ingestion**: Paste any URL, email, or repository name. The detection engine automatically configures metadata, embeds, and icons:
+  - 29 social platforms with official vector iconography.
+  - Interactive Spotify album, track, and playlist embeds.
+  - On-demand lazy-loaded YouTube video players.
+  - Live GitHub repository cards displaying stars, description, and primary language.
+  - Focal-point aware image cropping (`x, y: 0-100`) and photo filters (`natural`, `mono`, `dither`, `ascii`).
+- **Autonomous AI & MCP Server**: Native Model Context Protocol endpoint (`/api/mcp`) supporting Claude Code, Cursor, ChatGPT, VS Code, and custom agent workflows.
+- **Privacy-First Analytics**: Server-side view and click metrics without third-party trackers, cookies, or IP address persistence.
+- **Enterprise-Grade SSRF Protection**: Strict socket-level IP validation, DNS rebinding prevention, and hop-by-hop redirect verification on all link preview unfurls.
+- **Self-Hosting Freedom**: Everything unlocked. SQLite/Turso database, zero vendor lock-in, and custom domains out of the box.
 
-Full guide: [docs/ai-agents.md](docs/ai-agents.md). Working on this repo with a coding agent? Read [AGENTS.md](AGENTS.md).
+---
 
-</details>
+## Quickstart
 
-<p align="center"><img src=".github/assets/divider-petals.png" alt="" width="420"></p>
+### 1. Hosted (Instant)
 
-## Run it yourself
+Open **[tessy.page/new](https://tessy.page/new)** to compose a page instantly in your browser without creating an account. Claim your username whenever you are ready to publish.
 
-<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodewithevilxd%2Ftessy&amp;env=BETTER_AUTH_SECRET,NEXT_PUBLIC_SITE_URL,BETTER_AUTH_URL,DATABASE_URL,DATABASE_AUTH_TOKEN,BLOB_READ_WRITE_TOKEN&amp;envDescription=Secret%20(openssl%20rand%20-base64%2032)%2C%20your%20public%20URL%2C%20a%20Turso%20database%20and%20a%20Vercel%20Blob%20token&amp;envLink=https%3A%2F%2Fgithub.com%2Fcodewithevilxd%2Ftessy%2Fblob%2Fmain%2Fdocs%2Fself-hosting.md"><img src="https://vercel.com/button" alt="Deploy with Vercel"></a>
+### 2. Local Development
 
-Or with Docker:
+Ensure **Node.js >= 20.9** (Node 22 or 24 recommended) and `npm` are installed:
 
 ```bash
-git clone https://github.com/codewithevilxd/tessy.git && cd tessy
-docker build -t tessy . && docker run -p 3000:3000 -v tessy-data:/data \
-  -e NEXT_PUBLIC_SITE_URL=http://localhost:3000 -e BETTER_AUTH_URL=http://localhost:3000 \
-  -e BETTER_AUTH_SECRET=$(openssl rand -base64 32) tessy
+# Clone the repository
+git clone https://github.com/codewithevilxd/tessy.git
+cd tessy
+
+# Install dependencies (npm only)
+npm install
+
+# Start development server
+npm run dev
 ```
 
-Open http://localhost:3000 and sign up: the first account owns the instance, and every look is unlocked.
-Domains, backups and every setting: [self-hosting guide](https://docs.tessy.page/self-host/guide) · [.env.example](.env.example)
+Visit `http://localhost:3000`. Local SQLite data is stored in `~/.tessy` (configurable via `TESSY_DATA_DIR`).
 
-## Built with
+### 3. Docker Deployment
 
-Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · Motion · dnd-kit · shadcn/ui · Better Auth · Drizzle + libSQL · Zod · MCP
+```bash
+docker build -t tessy .
+docker run -p 3000:3000 \
+  -v tessy-data:/data \
+  -e NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
+  -e BETTER_AUTH_URL=http://localhost:3000 \
+  -e BETTER_AUTH_SECRET=$(openssl rand -base64 32) \
+  tessy
+```
 
-One schema, `src/lib/schema.ts`, describes a page. It drives the JSON Schema, the REST API, the MCP tools and the editor, so they never drift apart.
+---
 
-<details>
-<summary><b>How the pieces fit</b></summary>
-<br>
+## Visual Styles
+
+Each style draws the same underlying JSON data with an entirely unique visual personality, responsive mobile scene, and atmospheric effects.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/looks-tour-dark.webp">
+    <img src=".github/assets/looks-tour.webp" alt="Tour of Tessy visual looks on desktop" width="100%">
+  </picture>
+</p>
+
+| Look | Id | Aesthetic & Ambient Mechanics | Palettes |
+|---|---|---|---|
+| **Desk** | `cozy` | Wooden desk surface, polaroid photo cards, vinyl records, sticky notes, and animated procedural sunlight / leaf shadows. | Walnut, Maple, Pine, Teak |
+| **Washi** | `washi` | Japanese woodblock print, handmade rice paper, sumi ink brush borders, and carved cinnabar red seal (*hanko*). | Rice, Matcha, Ink, Sakura |
+| **Lofi** | `lofi` | Vintage desktop operating system. Little application windows with pinstriped titlebars, procedural WebGL 3D clouds by day, and rain over an anime skyline at night. | Terminal, Sunset, Vapor, Cyber |
+| **Painted** | `painted` | Fine art paper with deckled edges, rough watercolor washes, hand-folded envelopes, and melted wax seal badges. | Parchment, Terracotta, Olive, Indigo |
+| **Cobalt** | `cobalt` | Two-ink letterpress print. Rich midnight cobalt ink over cream stock, numbered astronomical plates, and solar burst insignias. | Deep Navy, Gold, Cream, Charcoal |
+| **Night** | `night` | Cyberpunk HUD interface. Cut-corner telemetry panels, monochrome signal accent lasers, animated commit streams, and magnetic tape cassettes. | Phosphor, Amber, Cyan, Matrix |
+
+<table>
+  <tr>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-desk-dark.webp"><img src=".github/assets/phone-desk.webp" alt="Desk Look on Mobile" width="100%"></picture></td>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-washi-dark.webp"><img src=".github/assets/phone-washi.webp" alt="Washi Look on Mobile" width="100%"></picture></td>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-lofi-dark.webp"><img src=".github/assets/phone-lofi.webp" alt="Lofi Look on Mobile" width="100%"></picture></td>
+  </tr>
+  <tr>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-painted-dark.webp"><img src=".github/assets/phone-painted.webp" alt="Painted Look on Mobile" width="100%"></picture></td>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-cobalt-dark.webp"><img src=".github/assets/phone-cobalt.webp" alt="Cobalt Look on Mobile" width="100%"></picture></td>
+    <td width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/phone-night-dark.webp"><img src=".github/assets/phone-night.webp" alt="Night Look on Mobile" width="100%"></picture></td>
+  </tr>
+</table>
+
+---
+
+## Architecture
+
+Tessy is built on a unified pipeline where one Zod schema acts as the single source of truth across the web studio, REST API, CLI, and MCP servers.
 
 ```mermaid
-flowchart LR
-  studio["Studio<br/>(browser)"] --> app
-  agent["AI agents"] -- "MCP /api/mcp" --> app
-  scripts["Scripts, CLI"] -- "REST /api/v1" --> app
-  app["Next.js app<br/>page schema in Zod"] --> db[("SQLite or Turso<br/>(Drizzle + libSQL)")]
-  app --> files[("Uploads<br/>data dir or Vercel Blob")]
-  app --> page["/username<br/>+ llms.txt + public JSON"]
+flowchart TD
+  subgraph Clients["Input Surfaces"]
+    UI["Web Studio<br/>(Zustand + dnd-kit)"]
+    Agents["AI Coding Agents<br/>(Claude, Cursor, Codex)"]
+    CLI["Tessy CLI<br/>(Node.js / tsx)"]
+    APIClient["External HTTP Requests"]
+  end
+
+  subgraph Ingestion["Ingestion & Protocol Layer"]
+    MCP["/api/mcp<br/>(mcp-handler + OAuth)"]
+    REST["/api/v1/*<br/>(Bearer API Key)"]
+    Detect["Smart Ingestion<br/>(src/lib/detect.ts)"]
+    SafeFetch["SSRF Firewall<br/>(src/lib/safe-fetch.ts)"]
+  end
+
+  subgraph Core["Core Engine"]
+    Zod["Page Schema<br/>(src/lib/schema.ts)"]
+    Ops["Page Operations<br/>(src/lib/page-ops.ts)"]
+    DB[("libSQL / SQLite<br/>(Drizzle ORM)")]
+  end
+
+  subgraph Presentation["Presentation Engine"]
+    Next["Next.js 16 App Router<br/>(React 19 Server Components)"]
+    WebGL["Three.js + Canvas<br/>(WebGL 3D Clouds & FX)"]
+    PublicPage["Public Page /[username]<br/>(ISR + Dynamic OpenGraph)"]
+  end
+
+  UI --> Ops
+  Agents --> MCP --> Ops
+  CLI --> REST --> Ops
+  APIClient --> REST
+  Ops --> Zod --> DB
+  Ops --> Detect --> SafeFetch
+  DB --> Next --> PublicPage
+  Next --> WebGL
 ```
 
-| Where | What |
-|---|---|
-| `src/components/page/styles/` | The looks, one `.tsx` + `.css` each |
-| `src/components/studio/` | The editor |
-| `src/app/api/` | REST (`v1`), MCP (`mcp`), auth and uploads |
-| `src/lib/` | Schema, looks, palettes, fonts, link detection |
+### Technical Stack
 
-From source: `npm install && npm run dev` (Node 22 or 24). Your local data lives in `~/.tessy`.
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Framework** | [Next.js 16](https://nextjs.org) (App Router) + React 19 | Server Component rendering with minimal client island payloads |
+| **Language** | TypeScript (Strict) | End-to-end type safety from schema to database |
+| **Styling** | [Tailwind CSS v4](https://tailwindcss.com) + Isolated CSS Modules | Custom aesthetic skins, grain shaders, and responsive rules |
+| **Motion & 3D** | Motion 14 + [Three.js](https://threejs.org) + Cobe | Micro-interactions, physics spring drag, and WebGL volumetric clouds |
+| **Editor State** | [Zustand](https://zustand.docs.pmnd.rs) + [Zundo](https://github.com/charkour/zundo) + `@dnd-kit` | 100-step temporal undo/redo stack with optimistic drag-and-drop |
+| **Database** | [Drizzle ORM](https://orm.drizzle.team) + `@libsql/client` | Local SQLite zero-config file or remote Turso distributed cluster |
+| **Authentication** | [Better Auth](https://www.better-auth.com) | Email/password, OAuth (GitHub/Google), API keys, and MCP OAuth server |
+| **Validation** | [Zod v4](https://zod.dev) | Single source of truth driving the JSON Schema, API, and MCP tools |
+| **Testing** | [Vitest](https://vitest.dev) + [Playwright](https://playwright.dev) | 139+ passing unit test cases and end-to-end browser specs |
 
-</details>
+---
 
-## Contributing
+## Connect Your AI (MCP)
 
-Issues and pull requests are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
+Tessy includes a production-ready, hosted Model Context Protocol server. AI assistants can manage your draft, add links, switch styles, and publish directly through conversational requests.
 
-- **Add a look.** A look is a `.tsx` and a `.css` file plus a lab page to check it in every palette. The steps: [Adding a look](CONTRIBUTING.md#adding-a-look).
-- **Pick up an issue.** [Good first issues](https://github.com/codewithevilxd/tessy/labels/good%20first%20issue) and [look ideas](https://github.com/codewithevilxd/tessy/labels/look) are a nice place to begin.
-- **Before a PR:** `npm run check`, `npm test`, and `npm run e2e` for UI changes.
+```text
+https://tessy.page/api/mcp
+```
 
-## Community, security and licence
+### CLI / Terminal Integration
 
-- Questions and ideas: [issues](https://github.com/codewithevilxd/tessy/issues). Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
-- Found a vulnerability? See [SECURITY.md](SECURITY.md) and report it privately.
-- Tessy is [MIT](LICENSE) licensed. The art that ships with the looks is public domain, CC0, or made for Tessy; every file and its source is in [public/looks/CREDITS.md](public/looks/CREDITS.md).
-  Some of it was generated with Krea 2, whose community licence allows commercial use only while your company makes under US$1M a year. Read the note in the credits file first.
-- Brand files and colours: [BRAND.md](BRAND.md).
+```bash
+# Claude Code
+claude mcp add --transport http tessy https://tessy.page/api/mcp
+# Then run /mcp -> Authenticate in Claude Code
+
+# Codex CLI
+codex mcp add tessy --url https://tessy.page/api/mcp
+```
+
+### MCP Toolset Reference
+
+| Tool | Action | Safety Hint |
+|---|---|---|
+| `get_page` | Returns the current draft, published URL, version, and pending diffs. | `readOnly` |
+| `create_page` | Claims a username and initializes a new page with a selected look. | `idempotent` |
+| `import_page` | Ingests a raw JSON page or conversational brief format. | `destructive` |
+| `add_tile` | Ingests URLs, notes, markdown, emails, or headings with auto-detection. | `write` |
+| `update_tile` | Modifies properties (title, crop, size, color) of an existing tile. | `idempotent` |
+| `move_tile` | Reorders tile positions on the grid or list. | `idempotent` |
+| `remove_tile` | Deletes a tile by ID. | `destructive` |
+| `set_theme` | Configures style, layout (`bento`/`list`/`canvas`), preset, and fonts. | `idempotent` |
+| `set_profile` | Updates name, bio, avatar URL, zoom, and location. | `idempotent` |
+| `publish` | Deploys the draft to the live public URL and invalidates cache. | `openWorld` |
+| `list_options` | Queries all available styles, palettes, fonts, and dimensions. | `readOnly` |
+
+---
+
+## CLI Reference
+
+The built-in CLI (`scripts/tessy.ts`) gives you full programmatic control over your page:
+
+```bash
+# Setup environment
+export TESSY_URL="http://localhost:3000"       # Or https://tessy.page
+export TESSY_API_KEY="tessy_your_api_key_here"  # Generated in dashboard -> Agents
+
+# Inspect current draft
+npm run tessy -- get
+
+# Add tiles
+npm run tessy -- add https://github.com/facebook/react --size w
+npm run tessy -- add "Check out my new article on systems architecture"
+npm run tessy -- add hello@example.com
+
+# Customize theme and typography
+npm run tessy -- theme --preset lavender --font modern --layout list
+
+# Update profile bio
+npm run tessy -- profile --name "Mira Sol" --bio "Systems Architect & Writer"
+
+# Publish draft to production
+npm run tessy -- publish
+
+# Schema validation
+npm run tessy -- validate examples/creator.json
+npm run tessy -- schema
+```
+
+---
+
+## REST API & Public Endpoints
+
+| Endpoint | Method | Auth | Description |
+|---|---|---|---|
+| `/api/v1/page` | `GET` | Bearer Key | Fetches current draft, state, and version index |
+| `/api/v1/page` | `PUT` | Bearer Key | Replaces entire draft with concurrency control (`baseVersion`) |
+| `/api/v1/page/tiles` | `POST` | Bearer Key | Appends single or batch tiles with auto-detection |
+| `/api/v1/page/theme` | `PATCH` | Bearer Key | Updates theme style, layout, or background |
+| `/api/v1/page/publish` | `POST` | Bearer Key | Commits draft to published state |
+| `/api/v1/public/:username` | `GET` | None | Public JSON payload of any live published page |
+| `/:username/llms.txt` | `GET` | None | Plaintext Markdown for LLM ingestion |
+| `/openapi.json` | `GET` | None | OpenAPI 3.1 specification for client generators |
+| `/schema/page.schema.json` | `GET` | None | Draft 2020-12 JSON Schema for validation |
+
+---
+
+## Self-Hosting
+
+Deploy your own instance of Tessy on any Node host, Docker daemon, or Vercel serverless environment with 100% unlocked features (unlimited analytics, custom domains, zero branding).
+
+### Environment Configuration
+
+Copy `.env.example` to `.env`:
+
+```bash
+# Required Base URLs
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+BETTER_AUTH_URL="http://localhost:3000"
+BETTER_AUTH_SECRET="generate_a_random_32_byte_secret"
+
+# Database (Leave blank for default local SQLite in ~/.tessy)
+DATABASE_URL=""
+DATABASE_AUTH_TOKEN=""
+
+# Instance Control
+TESSY_SIGNUP="first-user"   # 'first-user' (default), 'open', or 'closed'
+TESSY_ROOT="marketing"      # 'marketing' (landing page) or 'app' (direct editor)
+```
+
+### Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodewithevilxd%2Ftessy&env=BETTER_AUTH_SECRET,NEXT_PUBLIC_SITE_URL,BETTER_AUTH_URL,DATABASE_URL,DATABASE_AUTH_TOKEN&envDescription=Provide%20a%20Turso%20Database%20URL%20and%20Better%20Auth%20Secret)
+
+---
+
+## Directory Structure
+
+```text
+posy/
+├── .github/             # GitHub Actions workflows, assets & issue templates
+├── docs/                # Markdown documentation
+│   ├── site/            # Mintlify documentation engine (docs.tessy.page)
+│   └── *.md             # Single-source-of-truth markdown guides
+├── examples/            # Validated starter JSON page templates
+├── plugin/              # AI ecosystem plugins & manifests
+│   ├── .claude-plugin/  # Claude Code plugin definition
+│   ├── .cursor-plugin/  # Cursor plugin definition
+│   ├── openai/          # ChatGPT app manifest and review assets
+│   ├── gemini/          # Google Gemini CLI extension descriptor
+│   ├── lhm/             # LM Studio model descriptor
+│   └── skills/          # Portable agent skills (make-a-page)
+├── public/              # Static media, look assets, and public/schema/
+├── scripts/             # Tessy terminal CLI and documentation sync scripts
+├── src/                 # Application source code
+│   ├── app/             # Next.js 16 App Router (routes, public pages, API, MCP)
+│   ├── components/      # React 19 UI library, Studio editor, and Look scenes
+│   ├── db/              # Database schema, LibSQL client & migrations/
+│   ├── edition/         # Feature flag matrix (self-hosted vs hosted)
+│   └── lib/             # Core Zod schema, link detection, and security firewalls
+└── tests/               # Vitest unit suites and Playwright E2E suites
+```
+
+---
+
+## Quality Assurance & Testing
+
+Before creating a pull request, run the complete verification suite:
+
+```bash
+# Type check + validate starter JSON templates
+npm run check
+
+# Execute all Vitest unit tests (139 tests)
+npm test
+
+# Run Playwright E2E browser automation (starts internal test server)
+npm run e2e
+
+# Production build verification
+npm run build
+```
+
+---
+
+## Community & Security
+
+- **Contributing**: Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and steps to create a new Look.
+- **Code of Conduct**: Tessy follows open, respectful community standards outlined in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+- **Security Vulnerabilities**: If you discover a vulnerability, please review [SECURITY.md](SECURITY.md) and report it responsibly.
+
+---
+
+## License
+
+Tessy is licensed under the [MIT License](LICENSE).
+
+Artwork included with the looks is public domain, CC0, or created specifically for Tessy. Full attributions and source archives are documented in [public/looks/CREDITS.md](public/looks/CREDITS.md).
 
 <br>
 
-<a href="https://tessy.page">
-  <img src=".github/assets/footer.webp" alt="A painted meadow of wildflowers" width="100%">
-</a>
+<p align="center">
+  <a href="https://tessy.page">
+    <img src=".github/assets/footer.webp" alt="Tessy meadow illustration" width="100%">
+  </a>
+</p>
 
-<p align="center"><sub>Made by hand, with a cat asleep on the desk.</sub></p>
+<p align="center"><sub>Crafted by hand, with a cat asleep on the desk.</sub></p>
