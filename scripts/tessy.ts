@@ -109,8 +109,8 @@ switch (cmd) {
   }
   case 'schema': {
     const schema = JSON.stringify({ title: 'Tessy page', $id: 'https://tessy.page/schema/page.schema.json', ...z.toJSONSchema(Page, { io: 'input', target: 'draft-2020-12' }) }, null, 2) + '\n';
-    for (const f of ['schema/page.schema.json', 'public/schema/page.schema.json']) { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, schema); }
-    ok('wrote schema/page.schema.json and public/schema/page.schema.json');
+    for (const f of ['public/schema/page.schema.json']) { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, schema); }
+    ok('wrote public/schema/page.schema.json');
     break;
   }
   default:

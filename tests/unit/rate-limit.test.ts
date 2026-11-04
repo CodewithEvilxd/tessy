@@ -14,7 +14,7 @@ const { hit, limit, clientIp } = await import('@/lib/rate-limit');
 
 beforeAll(async () => {
   const { migrate } = await import('drizzle-orm/libsql/migrator');
-  await migrate(db, { migrationsFolder: path.resolve(__dirname, '../../drizzle') });
+  await migrate(db, { migrationsFolder: path.resolve(__dirname, '../../src/db/migrations') });
 });
 
 describe('rate limiter', () => {

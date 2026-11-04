@@ -45,7 +45,7 @@ const config: NextConfig = {
   // Docker / plain Node hosting: a self-contained server in .next/standalone
   output: process.env.TESSY_STANDALONE ? 'standalone' : undefined,
   experimental: { cpus: 2 },
-  outputFileTracingIncludes: { '/*': ['./drizzle/**/*'], '/llms-full.txt': ['./docs/*.md'] },
+  outputFileTracingIncludes: { '/*': ['./src/db/migrations/**/*'], '/llms-full.txt': ['./docs/*.md'] },
   async headers() {
     return [
       { source: '/:path*', headers: security },

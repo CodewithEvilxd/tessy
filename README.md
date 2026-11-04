@@ -234,7 +234,7 @@ Every field: [the page file](https://docs.tessy.page/agents/format).
 | REST | `/api/v1/page` with a Bearer key from the **Agents** page. Spec: [`/openapi.json`](https://tessy.page/openapi.json), guide: [API reference](https://docs.tessy.page/api-reference/introduction) |
 | Public JSON | `/api/v1/public/<username>` for any published page |
 | `llms.txt` | [`tessy.page/llms.txt`](https://tessy.page/llms.txt) for the app, `/<username>/llms.txt` for any page |
-| Schemas | [`schema/page.schema.json`](schema/page.schema.json) and `/schema/brief.schema.json` |
+| Schemas | [`public/schema/page.schema.json`](public/schema/page.schema.json) and `/schema/brief.schema.json` |
 | Plugin | Claude Code and Cursor skills in [`plugin/`](plugin) |
 
 ```bash

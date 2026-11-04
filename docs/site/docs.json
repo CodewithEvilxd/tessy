@@ -219,12 +219,12 @@
   "seo": {
     "indexing": "navigable",
     "metatags": {
-      "og:image": "https://raw.githubusercontent.com/codewithevilxd/tessy/main/docs-site/images/og-docs.png",
+      "og:image": "https://raw.githubusercontent.com/codewithevilxd/tessy/main/docs/site/images/og-docs.png",
       "og:image:width": "1200",
       "og:image:height": "630",
       "og:site_name": "Tessy docs",
       "twitter:card": "summary_large_image",
-      "twitter:image": "https://raw.githubusercontent.com/codewithevilxd/tessy/main/docs-site/images/og-docs.png",
+      "twitter:image": "https://raw.githubusercontent.com/codewithevilxd/tessy/main/docs/site/images/og-docs.png",
       "theme-color": "#a5683f"
     }
   }

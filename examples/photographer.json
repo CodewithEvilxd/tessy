@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/page.schema.json",
+  "$schema": "../public/schema/page.schema.json",
   "version": 2,
   "profile": { "name": "Noor Haddad", "bio": "Photographer. Mostly film, mostly mornings." },
   "theme": { "style": "washi", "preset": "kinari", "font": "washi", "radius": "sharp", "layout": "bento", "align": "center", "motion": true },

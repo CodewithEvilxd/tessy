@@ -21,3 +21,4 @@ Every connector points to your Tessy MCP server:
 https://tessy.page/api/mcp
 ```
 For self-hosted instances, replace with `https://YOUR-DOMAIN/api/mcp`.
+

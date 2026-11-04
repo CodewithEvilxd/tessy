@@ -25,7 +25,7 @@
     "check": "tsc --noEmit && tsx scripts/tessy.ts validate examples/creator.json && tsx scripts/tessy.ts validate examples/developer.json && tsx scripts/tessy.ts validate examples/photographer.json",
     "schema": "tsx scripts/tessy.ts schema",
     "docs:sync": "node scripts/docs-sync.mjs",
-    "docs:dev": "npm run docs:sync && cd docs-site && npx mint@latest dev --port 3333",
+    "docs:dev": "npm run docs:sync && cd docs/site && npx mint@latest dev --port 3333",
     "test": "vitest run",
     "e2e": "playwright test",
     "db:generate": "drizzle-kit generate",

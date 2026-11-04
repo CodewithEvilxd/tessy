@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const out = path.join(root, 'docs-site');
+const out = path.join(root, 'docs', 'site');
 const SITE = 'https://tessy.page';
 const GH = 'https://github.com/codewithevilxd/tessy';
 
@@ -63,7 +63,7 @@ for (const p of PAGES) {
   const dest = path.join(out, p.dest);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, convert(fs.readFileSync(src, 'utf8'), p));
-  console.log(`${p.src} -> docs-site/${p.dest}`);
+  console.log(`${p.src} -> docs/site/${p.dest}`);
 }
 
 // OpenAPI: prefer the running dev server, fall back to production; keep the committed copy if both fail.
@@ -104,5 +104,5 @@ const route = fs.readFileSync(path.join(root, 'src/app/api/mcp/route.ts'), 'utf8
 const tools = [...route.matchAll(/registerTool\('([a-z_]+)'/g)].map(m => m[1]);
 const toolsPage = fs.existsSync(path.join(out, 'agents/tools.mdx')) ? fs.readFileSync(path.join(out, 'agents/tools.mdx'), 'utf8') : '';
 const missing = tools.filter(t => !toolsPage.includes(`name="${t}"`));
-if (missing.length) { console.error(`docs-site/agents/tools.mdx is missing MCP tools: ${missing.join(', ')}`); process.exitCode = 1; }
+if (missing.length) { console.error(`docs/site/agents/tools.mdx is missing MCP tools: ${missing.join(', ')}`); process.exitCode = 1; }
 else console.log(`mcp tools: all ${tools.length} documented`);

@@ -34,7 +34,7 @@ The end-to-end tests use a throwaway database in `.scratch/e2e-data`, never your
 | `src/components/studio/` | The editor (Zustand store, dnd-kit, shadcn/ui). |
 | `src/app/api/` | Auth, REST (`v1`), hosted MCP (`mcp`), uploads, tracking. |
 | `src/edition/` | What an instance allows (self-hosted vs hosted platform). |
-| `src/db/` | Drizzle schema; migrations in `drizzle/`. |
+| `src/db/` | Drizzle schema and migrations (`src/db/migrations/`). |
 
 ## Adding a platform or a tile type
 

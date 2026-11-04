@@ -34,13 +34,13 @@ Mintlify needs an LTS Node (20, 22 or 24; it refuses Node 25).
 
 ```bash
 npm run docs:dev                 # sync, then http://localhost:3333
-cd docs-site && npx mint@latest broken-links
-cd docs-site && npx mint@latest validate
+cd docs/site && npx mint@latest broken-links
+cd docs/site && npx mint@latest validate
 ```
 
 ## Deploy
 
 1. Create a Mintlify account at https://mintlify.com and install the Mintlify GitHub app on the Tessy repo.
-2. In the dashboard, set the docs directory to `docs-site` and the branch to `main`.
+2. In the dashboard, set the docs directory to `docs/site` and the branch to `main`.
 3. Add the custom domain `docs.tessy.page`. Mintlify shows the CNAME target; create `docs CNAME <target>` at your DNS provider.
 4. Every push to `main` redeploys. Run `npm run docs:sync` before committing.

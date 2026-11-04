@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/page.schema.json",
+  "$schema": "../public/schema/page.schema.json",
   "version": 2,
   "profile": { "name": "Kai Morgan", "bio": "I build developer tools and write about shipping small things. Open source on weekends.", "location": "Berlin" },
   "theme": { "style": "night", "preset": "netrunner", "font": "night", "radius": "soft", "layout": "bento", "align": "side", "motion": true },

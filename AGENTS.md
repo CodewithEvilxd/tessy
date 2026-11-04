@@ -24,7 +24,7 @@ npm run check        # tsc --noEmit + validate the example pages
 npm test             # unit tests (Vitest), tests/unit
 npm run e2e          # Playwright, tests/e2e; builds and starts its own server on port 3211
 npm run build        # production build
-npm run schema       # regenerate schema/page.schema.json after changing src/lib/schema.ts
+npm run schema       # regenerate public/schema/page.schema.json after changing src/lib/schema.ts
 npm run tessy -- --help   # the CLI
 ```
 
@@ -43,9 +43,9 @@ Before you finish a change, run `npx tsc --noEmit -p .` and `npx vitest run`. Ru
 | `src/components/ui/` | shadcn/ui primitives |
 | `src/app/` | Routes. `api/v1` is REST, `api/mcp` is MCP, `lab/` is the component lab for looks. |
 | `src/edition/` | What an instance allows (self-hosted vs tessy.page) |
-| `src/db/`, `drizzle/` | Database schema and migrations |
+| `src/db/` | Database schema and migrations (`src/db/migrations/`) |
 | `public/looks/<id>/` | Art for each look. Every file is listed in `public/looks/CREDITS.md`. |
-| `schema/`, `docs/`, `examples/` | JSON Schema, Markdown docs, example pages |
+| `docs/`, `examples/` | Docs, docs site, and example pages |
 | `plugin/`, `server.json` | Claude Code / Cursor plugin and the MCP registry entry |
 | `scripts/` | The CLI (`tessy.ts`) and `page-shot.mjs` for screenshots |
 | `tests/` | `unit/` and `e2e/` |
@@ -88,5 +88,5 @@ Follow the 11 steps in [CONTRIBUTING.md](CONTRIBUTING.md#adding-a-look). In shor
 - Do not add a runtime dependency without a clear reason. Tessy is small on purpose.
 - Do not make network calls from tests, and do not point tests at real data. E2E uses a throwaway database in `.scratch/e2e-data`.
 - Do not fetch user-supplied URLs without the existing safety checks (see `src/app/api/unfurl`).
-- Do not hand-edit generated files: `schema/page.schema.json`, `public/schema/page.schema.json`, `drizzle/meta/*`. Regenerate them.
+- Do not hand-edit generated files: `public/schema/page.schema.json`, `src/db/migrations/meta/*`. Regenerate them.
 - Do not run `git push` or open releases unless the owner asked you to.

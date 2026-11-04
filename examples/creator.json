@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/page.schema.json",
+  "$schema": "../public/schema/page.schema.json",
   "version": 2,
   "profile": {
     "name": "Alex Rivera",
