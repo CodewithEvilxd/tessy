@@ -1,10 +1,10 @@
 'use client';
 
 // Small interactive bits of the public page.
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, useCallback, type CSSProperties, type ReactNode } from 'react';
 import { zoomOf } from '@/lib/crop';
-import { Link2, Play, Share2, Check, X, Music2, ArrowUpRight } from 'lucide-react';
-import { hostOf, faviconHost, musicEmbed } from '@/lib/url';
+import { Link2, Play, Pause, Share2, Check, X, Music2, ArrowUpRight } from 'lucide-react';
+import { hostOf, faviconHost } from '@/lib/url';
 import { cn } from '@/lib/utils';
 
 /** A small live clock, like a desktop menubar (Lofi). Renders the time on the server too, so nothing jumps. */
@@ -61,6 +61,7 @@ export function MusicPlayer({
   size,
   editing,
   compact = false,
+  variant = 'card',
   children,
   className,
 }: {
@@ -72,76 +73,243 @@ export function MusicPlayer({
   size?: 's' | 'm' | 'w' | 'l' | 't';
   editing?: boolean;
   compact?: boolean;
+  variant?: 'card' | 'painted' | 'row' | 'default';
   children?: ReactNode;
   className?: string;
 }) {
   const [playing, setPlaying] = useState(false);
-  const embed = musicEmbed(url);
+  const [loading, setLoading] = useState(false);
+  const [videoId, setVideoId] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const seekRef = useRef<HTMLDivElement>(null);
 
-  if (playing && !editing && embed) {
+  const togglePlay = useCallback(async (e?: React.MouseEvent | React.KeyboardEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (editing) return;
+
+    if (playing) {
+      setPlaying(false);
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+          '*'
+        );
+      } catch {}
+      return;
+    }
+
+    if (videoId && iframeRef.current) {
+      setPlaying(true);
+      try {
+        iframeRef.current.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+          '*'
+        );
+      } catch {}
+      return;
+    }
+
+    // Resolve track to full YouTube audio
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({
+        url: url || '',
+        title: title || '',
+        artist: artist || '',
+      });
+      const res = await fetch(`/api/music/resolve?${params.toString()}`);
+      const data = await res.json();
+      if (data.videoId) {
+        setVideoId(data.videoId);
+        setPlaying(true);
+      }
+    } catch (err) {
+      console.error('Failed to resolve audio:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [editing, playing, videoId, url, title, artist]);
+
+  useEffect(() => {
+    if (!videoId) return;
+
+    const onMessage = (event: MessageEvent) => {
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (data && data.event === 'infoDelivery' && data.info) {
+          if (typeof data.info.currentTime === 'number') {
+            setCurrentTime(data.info.currentTime);
+          }
+          if (typeof data.info.duration === 'number' && data.info.duration > 0) {
+            setDuration(data.info.duration);
+          }
+          if (typeof data.info.playerState === 'number') {
+            if (data.info.playerState === 1) setPlaying(true);
+            else if (data.info.playerState === 2) setPlaying(false);
+            else if (data.info.playerState === 0) {
+              setPlaying(false);
+              setCurrentTime(0);
+            }
+          }
+        }
+      } catch {}
+    };
+
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [videoId]);
+
+  // Smooth local timer for seek bar
+  useEffect(() => {
+    if (!playing) return;
+    const timer = setInterval(() => {
+      setCurrentTime((t) => {
+        if (duration > 0 && t >= duration) {
+          setPlaying(false);
+          return 0;
+        }
+        return t + 0.25;
+      });
+    }, 250);
+    return () => clearInterval(timer);
+  }, [playing, duration]);
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!seekRef.current || duration <= 0) return;
+    const rect = seekRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+    const targetTime = ratio * duration;
+    setCurrentTime(targetTime);
+    try {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func: 'seekTo', args: [targetTime, true] }),
+        '*'
+      );
+      if (!playing) {
+        setPlaying(true);
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+          '*'
+        );
+      }
+    } catch {}
+  };
+
+  const progress = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : (playing ? 25 : 0);
+
+  const hiddenPlayer = videoId ? (
+    <iframe
+      ref={iframeRef}
+      key={videoId}
+      src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=1&playsinline=1`}
+      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0.001, pointerEvents: 'none', zIndex: -10 }}
+      allow="autoplay; encrypted-media"
+      title={title || 'Audio player'}
+      onLoad={() => {
+        try {
+          iframeRef.current?.contentWindow?.postMessage('{"event":"listening"}', '*');
+        } catch {}
+      }}
+    />
+  ) : null;
+
+  // 1. If variant is "painted" (The exact match for Image 2)
+  if (variant === 'painted') {
     return (
-      <div className={cn('relative size-full overflow-hidden rounded-[inherit] bg-[#121212]', compact ? 'min-h-[80px] h-[152px]' : 'min-h-[120px] h-full')}>
-        <iframe
-          className="size-full border-0 rounded-[inherit]"
-          src={embed}
-          title={title || 'Music player'}
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-        />
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setPlaying(false);
-          }}
-          className="absolute right-2 top-2 z-30 grid size-7 place-items-center rounded-full bg-black/80 text-white/90 hover:bg-black hover:text-white shadow-md backdrop-blur transition-all"
-          aria-label="Close music player"
-          title="Close player"
-        >
-          <X className="size-4" />
-        </button>
+      <div className="ptc ptc-music">
+        <span className="ptc-cover">
+          {thumb ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={thumb} alt="" style={crop} />
+          ) : (
+            <Music2 aria-hidden />
+          )}
+        </span>
+        <div className="ptc-words">
+          <b className="ptc-title">{title || 'Listen on Spotify'}</b>
+          <span className="ptc-sub">{artist || 'Spotify'}</span>
+          <span className="ptc-player" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="ptc-play cursor-pointer"
+              aria-label={playing ? 'Pause' : 'Play'}
+            >
+              {playing ? (
+                <Pause className="size-3.5 fill-current" />
+              ) : (
+                <Play className="size-3.5 fill-current ml-0.5" />
+              )}
+            </button>
+            <div
+              ref={seekRef}
+              onClick={handleSeek}
+              className="ptc-line cursor-pointer"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              title="Seek"
+            >
+              <i style={{ width: `${progress}%`, animation: playing ? 'none' : undefined }} />
+            </div>
+          </span>
+        </div>
+        {hiddenPlayer}
       </div>
     );
   }
 
-  const triggerPlay = (e: React.MouseEvent | React.KeyboardEvent) => {
-    if (editing) return;
-    if (embed) {
-      e.preventDefault();
-      e.stopPropagation();
-      setPlaying(true);
-    }
-  };
-
+  // 2. If children provided (scene views)
   if (children) {
     return (
       <div
         role="button"
         tabIndex={editing ? -1 : 0}
-        onClick={triggerPlay}
+        onClick={togglePlay}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+          if (e.key === 'Enter' || e.key === ' ') togglePlay(e);
         }}
         className={cn('relative block size-full cursor-pointer text-left select-none', className)}
-        aria-label={`Play ${title || 'music'}`}
+        aria-label={playing ? `Pause ${title || 'music'}` : `Play ${title || 'music'}`}
       >
         {children}
+        {/* Subtle bottom progress bar */}
+        <div
+          ref={seekRef}
+          onClick={handleSeek}
+          className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
+        >
+          <div
+            className="h-full bg-[var(--accent,#e05a47)] transition-all duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        {hiddenPlayer}
       </div>
     );
   }
 
+  // 3. Compact list row (List layout)
   if (compact) {
     return (
       <div
         role="button"
         tabIndex={editing ? -1 : 0}
-        onClick={triggerPlay}
+        onClick={togglePlay}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+          if (e.key === 'Enter' || e.key === ' ') togglePlay(e);
         }}
-        className="tessy-row-inner sf-music-row cursor-pointer select-none"
-        aria-label={`Play ${title || 'music'}`}
+        className="tessy-row-inner sf-music-row cursor-pointer select-none relative overflow-hidden"
+        aria-label={playing ? `Pause ${title || 'music'}` : `Play ${title || 'music'}`}
       >
         <span className="sf-cover">
           {thumb ? (
@@ -155,24 +323,45 @@ export function MusicPlayer({
           <span className="sf-title">{title || 'Listen on Spotify'}</span>
           <span className="sf-sub">{artist || 'Spotify'}</span>
         </span>
-        <span className="sf-play" aria-hidden>
-          <Play className="size-3.5 fill-current" />
-        </span>
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="sf-play cursor-pointer"
+          aria-label={playing ? 'Pause' : 'Play'}
+        >
+          {playing ? (
+            <Pause className="size-3.5 fill-current" />
+          ) : (
+            <Play className="size-3.5 fill-current ml-0.5" />
+          )}
+        </button>
+        <div
+          ref={seekRef}
+          onClick={handleSeek}
+          className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
+        >
+          <div
+            className="h-full bg-[var(--accent)] transition-all duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        {hiddenPlayer}
       </div>
     );
   }
 
+  // 4. Square 's' tile
   if (size === 's') {
     return (
       <div
         role="button"
         tabIndex={editing ? -1 : 0}
-        onClick={triggerPlay}
+        onClick={togglePlay}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+          if (e.key === 'Enter' || e.key === ' ') togglePlay(e);
         }}
-        className="sf-music sf-music-s cursor-pointer select-none size-full"
-        aria-label={`Play ${title || 'music'}`}
+        className="sf-music sf-music-s cursor-pointer select-none size-full relative overflow-hidden"
+        aria-label={playing ? `Pause ${title || 'music'}` : `Play ${title || 'music'}`}
       >
         <span className="sf-cover">
           {thumb ? (
@@ -183,35 +372,39 @@ export function MusicPlayer({
           )}
         </span>
         <span className="sf-play">
-          <Play className="size-3.5 fill-current" />
+          {playing ? (
+            <Pause className="size-3.5 fill-current" />
+          ) : (
+            <Play className="size-3.5 fill-current ml-0.5" />
+          )}
         </span>
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="sf-go"
-            title="Open in Spotify"
-            aria-label="Open in Spotify"
-          >
-            <ArrowUpRight className="size-[15px]" />
-          </a>
-        )}
+        {/* Bottom progress bar */}
+        <div
+          ref={seekRef}
+          onClick={handleSeek}
+          className="absolute inset-x-0 bottom-0 h-1 cursor-pointer bg-black/10 dark:bg-white/10"
+        >
+          <div
+            className="h-full bg-[var(--accent)] transition-all duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        {hiddenPlayer}
       </div>
     );
   }
 
+  // 5. Minimal wide / large card
   return (
     <div
       role="button"
       tabIndex={editing ? -1 : 0}
-      onClick={triggerPlay}
+      onClick={togglePlay}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') triggerPlay(e);
+        if (e.key === 'Enter' || e.key === ' ') togglePlay(e);
       }}
-      className="sf-music cursor-pointer select-none size-full"
-      aria-label={`Play ${title || 'music'}`}
+      className="sf-music cursor-pointer select-none size-full relative overflow-hidden"
+      aria-label={playing ? `Pause ${title || 'music'}` : `Play ${title || 'music'}`}
     >
       {thumb && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -230,11 +423,11 @@ export function MusicPlayer({
           <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor" aria-hidden>
             <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
           </svg>
-          Now playing
+          {playing ? 'Now playing' : 'Music'}
         </span>
         <p className="sf-title">{title || 'Listen on Spotify'}</p>
         <p className="sf-sub">{artist || 'Spotify'}</p>
-        <span className="sf-eq" aria-hidden>
+        <span className={cn('sf-eq', playing && 'is-playing')} aria-hidden>
           <i />
           <i />
           <i />
@@ -243,21 +436,28 @@ export function MusicPlayer({
         </span>
       </div>
       <span className="sf-play" aria-hidden>
-        <Play className="size-[17px] fill-current" />
+        {playing ? (
+          <Pause className="size-[17px] fill-current" />
+        ) : (
+          <Play className="size-[17px] fill-current ml-0.5" />
+        )}
       </span>
-      {url && (
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="sf-go"
-          title="Open in Spotify"
-          aria-label="Open in Spotify"
-        >
-          <ArrowUpRight className="size-[15px]" />
-        </a>
-      )}
+      {/* Bottom progress bar */}
+      <div
+        ref={seekRef}
+        onClick={handleSeek}
+        className="absolute inset-x-0 bottom-0 h-1.5 cursor-pointer bg-black/10 dark:bg-white/10"
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <div
+          className="h-full bg-[var(--accent)] transition-all duration-150"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+      {hiddenPlayer}
     </div>
   );
 }

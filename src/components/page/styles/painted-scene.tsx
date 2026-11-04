@@ -65,16 +65,15 @@ function LinkCard({ tile, big }: { tile: LinkTile; big?: boolean }) {
 function MusicCard({ tile, editing }: { tile: Of<'music'>; editing?: boolean }) {
   const m = tileMeta(tile);
   return (
-    <MusicPlayer url={tile.url} title={m.title} artist={m.sub} thumb={m.image ? asset(m.image) : undefined} crop={cropStyle(tile)} editing={editing}>
-      <div className="ptc ptc-music">
-        <span className="ptc-cover">{m.image ? <Img src={m.image} crop={cropStyle(tile)} /> : <Music2 aria-hidden />}</span>
-        <div className="ptc-words">
-          <b className="ptc-title">{m.title}</b>
-          <span className="ptc-sub">{m.sub}</span>
-          <span className="ptc-player" aria-hidden><span className="ptc-play"><Play /></span><span className="ptc-line"><i /></span></span>
-        </div>
-      </div>
-    </MusicPlayer>
+    <MusicPlayer
+      url={tile.url}
+      title={m.title}
+      artist={m.sub}
+      thumb={m.image ? asset(m.image) : undefined}
+      crop={cropStyle(tile)}
+      editing={editing}
+      variant="painted"
+    />
   );
 }
 

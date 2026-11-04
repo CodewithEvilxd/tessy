@@ -76,9 +76,9 @@ export async function enrichTile<T extends Tile>(tile: T): Promise<T> {
     const r = await youtube(tile.url);
     return r ? { ...tile, title: tile.title ?? r.title, image: tile.image ?? r.image } : tile;
   }
-  if (tile.type === 'music' && !tile.image) {
+  if (tile.type === 'music' && (!tile.image || !tile.artist)) {
     const r = await spotify(tile.url);
-    return r ? { ...tile, title: tile.title ?? r.title, image: r.image } : tile;
+    return r ? { ...tile, title: tile.title ?? r.title, image: tile.image ?? r.image, artist: tile.artist ?? r.artist } : tile;
   }
   return tile;
 }
@@ -90,10 +90,20 @@ async function oembed(endpoint: string) {
   return { title: r.title?.slice(0, 80), image: await publicImage(r.thumbnail_url) };
 }
 
-/** Title and cover art from Spotify's public oEmbed endpoint. */
-export async function spotify(url: string): Promise<{ title?: string; image?: string } | null> {
+/** Title, artist, and cover art for Spotify links. */
+export async function spotify(url: string): Promise<{ title?: string; image?: string; artist?: string } | null> {
   if (!/^https:\/\/open\.spotify\.com\//.test(url)) return null;
-  return oembed(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`).catch(() => null);
+  const o = await oembed(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`).catch(() => null);
+  try {
+    const res = await safeFetch(url, { maxBytes: 150_000, timeoutMs: 3000, accept: 'text/html' });
+    const html = res.text();
+    const ogDesc = html.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+    const artist = ogDesc?.split('·')?.[0]?.trim();
+    if (artist && artist !== o?.title) {
+      return { ...o, artist };
+    }
+  } catch {}
+  return o;
 }
 
 /** Title and thumbnail from YouTube's public oEmbed endpoint (no key). */

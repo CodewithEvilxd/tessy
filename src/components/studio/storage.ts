@@ -59,10 +59,27 @@ export async function enrich(tile: Tile): Promise<Partial<Tile> | null> {
       if (r.full_name) return { description: r.description ?? undefined, stars: r.stargazers_count, language: r.language ?? undefined };
     } catch { /* offline */ }
   }
-  if ((tile.type === 'music' && !tile.image) || (tile.type === 'video' && (!tile.image || !tile.title))) {
+  if (tile.type === 'music' && (!tile.image || !tile.artist)) {
     try {
       const r = await (await fetch(`/api/unfurl?url=${encodeURIComponent(tile.url)}`)).json();
-      if (r.image || r.title) return { ...(r.image && !tile.image && { image: r.image }), ...(r.title && !tile.title && { title: r.title }) };
+      if (r.image || r.title || r.artist) {
+        return {
+          ...(r.image && !tile.image && { image: r.image }),
+          ...(r.title && !tile.title && { title: r.title }),
+          ...(r.artist && !tile.artist && { artist: r.artist }),
+        };
+      }
+    } catch { /* ignore */ }
+  }
+  if (tile.type === 'video' && (!tile.image || !tile.title)) {
+    try {
+      const r = await (await fetch(`/api/unfurl?url=${encodeURIComponent(tile.url)}`)).json();
+      if (r.image || r.title) {
+        return {
+          ...(r.image && !tile.image && { image: r.image }),
+          ...(r.title && !tile.title && { title: r.title }),
+        };
+      }
     } catch { /* ignore */ }
   }
   if (tile.type === 'link') {
